@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc &&  vite build && copyfiles ./package.json dist && npm run removeFromBuild:lib",
+    "build": "npm run typecheck && vite build && copyfiles ./package.json dist && npm run removeFromBuild:lib",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "lint": "npm run lint:eslint && npm run lint:styles",
