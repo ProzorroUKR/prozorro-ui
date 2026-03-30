@@ -35,5 +35,5 @@ tsconfig.json
 The library ships with a reference `PzButton` component and a matching Storybook story:
 
 ```ts
-import { PzButton } from 'prozorro-ui';
+import { PzButton } from "prozorro-ui";
 ```

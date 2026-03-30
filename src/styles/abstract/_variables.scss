@@ -1,0 +1,59 @@
+:root {
+  // Colors
+  --white: #fff;
+  --black: #242638;
+  --black-tansparent: rgb(36 38 56 / 70%);
+  --gray: #f5f5f5;
+  --gray-100: #d6dade;
+  --gray-200: #939393;
+  --gray-300: #f0f4f5;
+  --gray-400: #f4f8f9;
+  --gray-500: #454545;
+  --gray-600: #f8f8f8;
+  --gray-700: rgb(214 218 222 / 50%);
+  --gray-800: #c2d8de;
+  --gray-900: #6d6d6d;
+  --gray-950: #c0c0c0;
+  --blue: #014da8;
+  --blue-100: #2070d1;
+  --blue-200: #c2d8de;
+  --blue-300: #006887;
+  --blue-400: #6dc8eb;
+  --green: #599a4f;
+  --green-100: #bfffb2;
+  --green-200: #e2f7dc;
+  --green-300: #40e81e;
+  --green-400: #89db33;
+  --red: #d70c17;
+  --red-100: #e55166;
+  --red-200: #e85d57;
+  --red-300: #ff3800;
+  --red-400: #f00;
+  --orange: #ef9400;
+  --orange-100: #e56101;
+  --orange-200: #ff831a;
+
+  // Font sizes
+  --size-xxl: 44px;
+  --size-xxls: 40px;
+  --size-xxlss: 32px;
+  --size-xl: 24px;
+  --size-xls: 20px;
+  --size-l: 18px;
+  --size-m: 16px;
+  --size-s: 14px;
+  --size-xs: 12px;
+
+  // Line height
+  --line-height-s: 20px;
+  --line-height-m: 24px;
+  --line-height-l: 28px;
+
+  // Blocks
+  --tooltip-width: 415px;
+  --tender-list-title-width: 387px;
+  --tender-list-title-box-width: 340px;
+
+  // Spacing
+  --row-horzontal-padding: 10px; // general .row wrapper style
+}

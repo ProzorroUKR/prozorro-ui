@@ -1,0 +1,50 @@
+@use "sass:map";
+
+$breakpoints: (
+  "xs": 0,
+  "sm": 576px,
+  "md": 768px,
+  "lg": 1024px,
+  "xl": 1200px,
+  "xxl": 1400px,
+);
+
+@mixin min-media-devices($key) {
+  $breakpoint: #{map.get($breakpoints, $key)};
+
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+// why 0.02px https://getbootstrap.com/docs/5.0/layout/breakpoints/
+@mixin max-media-devices($key) {
+  $breakpoint: calc(#{map.get($breakpoints, $key)} - 0.02px);
+
+  @media (max-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin min-and-max-media-devices($min-key, $max-key) {
+  $min-breakpoint: #{map.get($breakpoints, $min-key)};
+  $max-breakpoint: #{map.get($breakpoints, $max-key)};
+
+  @media (min-width: $min-breakpoint) and (max-width: $max-breakpoint) {
+    @content;
+  }
+}
+
+@mixin range-slider-thumb {
+  width: 10%;
+  height: 10px;
+  background: var(--blue-200);
+  cursor: pointer;
+}
+
+@mixin focus-ring($color) {
+  &:focus-visible {
+    outline: 2px solid $color;
+    outline-offset: 2px;
+  }
+}

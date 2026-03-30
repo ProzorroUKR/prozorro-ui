@@ -1,3 +1,6 @@
-@use './variables' as *;
-@use './mixins' as *;
-@use './reset';
+@use "abstract/variables" as *;
+@use "abstract/mixins" as *;
+
+@use "vendors/normalize" as *;
+
+@use "./reset";

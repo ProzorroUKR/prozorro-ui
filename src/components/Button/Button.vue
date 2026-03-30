@@ -1,20 +1,3 @@
-<script setup lang="ts">
-import type { ButtonProps } from './types';
-
-withDefaults(defineProps<ButtonProps>(), {
-  variant: 'primary',
-  disabled: false
-});
-
-const emit = defineEmits<{
-  click: [event: MouseEvent];
-}>();
-
-function handleClick(event: MouseEvent) {
-  emit('click', event);
-}
-</script>
-
 <template>
   <button
     class="pz-button"
@@ -26,6 +9,23 @@ function handleClick(event: MouseEvent) {
     <span class="pz-button__label">{{ label }}</span>
   </button>
 </template>
+
+<script setup lang="ts">
+import type { ButtonProps } from "./types";
+
+withDefaults(defineProps<ButtonProps>(), {
+  variant: "primary",
+  disabled: false,
+});
+
+const emit = defineEmits<{
+  click: [event: MouseEvent];
+}>();
+
+function handleClick(event: MouseEvent): void {
+  emit("click", event);
+}
+</script>
 
 <style scoped lang="scss">
 .pz-button {

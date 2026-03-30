@@ -1,4 +1,5 @@
-import { createApp } from 'vue';
-import Playground from './Playground.vue';
+import { createApp } from "vue";
 
-createApp(Playground).mount('#app');
+import Playground from "./Playground.vue";
+
+createApp(Playground).mount("#app");

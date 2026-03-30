@@ -1,4 +1,66 @@
 export default {
-  extends: ['stylelint-config-standard-scss', 'stylelint-config-html/vue'],
-  ignoreFiles: ['dist/**/*', 'storybook-static/**/*', 'node_modules/**/*']
+  extends: [
+    "stylelint-config-standard-scss",
+    "stylelint-config-html/vue",
+    "stylelint-config-recommended-vue/scss",
+    "stylelint-config-recommended-scss",
+  ],
+  ignoreFiles: ["dist/**/*", "storybook-static/**/*", "node_modules/**/*"],
+  plugins: ["stylelint-order"],
+  overrides: [
+    {
+      files: ["**/*.vue"],
+      customSyntax: "postcss-html",
+    },
+  ],
+  rules: {
+    "scss/at-extend-no-missing-placeholder": null,
+    "no-empty-source": null,
+    "no-descending-specificity": null,
+    "font-family-no-duplicate-names": true,
+    "function-calc-no-unspaced-operator": true,
+    "function-no-unknown": true,
+    "unit-no-unknown": true,
+    "custom-property-no-missing-var-function": true,
+    "property-no-unknown": true,
+    "declaration-block-no-duplicate-custom-properties": true,
+    "block-no-empty": true,
+    "selector-pseudo-class-no-unknown": true,
+    "selector-pseudo-element-no-unknown": [true, { ignorePseudoElements: ["/deep/", "deep"] }],
+    "selector-type-no-unknown": true,
+    "media-feature-name-no-unknown": true,
+    "comment-no-empty": true,
+    "no-duplicate-at-import-rules": true,
+    "no-duplicate-selectors": true,
+    "no-invalid-double-slash-comments": true,
+    "length-zero-no-unit": true,
+    "custom-property-empty-line-before": [
+      "never",
+      {
+        ignore: ["after-comment", "inside-single-line-block"],
+      },
+    ],
+    "font-family-name-quotes": "always-where-recommended",
+    "function-url-quotes": "always",
+    "shorthand-property-no-redundant-values": true,
+    "selector-attribute-quotes": "always",
+    "function-name-case": "lower",
+    "property-no-vendor-prefix": [true, { ignoreProperties: ["appearance", "text-size-adjust", "hyphens"] }],
+    "at-rule-empty-line-before": [
+      "always",
+      {
+        except: ["inside-block", "blockless-after-same-name-blockless", "blockless-after-blockless", "first-nested"],
+        ignore: [
+          "after-comment",
+          "first-nested",
+          "inside-block",
+          "blockless-after-same-name-blockless",
+          "blockless-after-blockless",
+        ],
+        ignoreAtRules: ["array", "of", "at-rules"],
+      },
+    ],
+    "value-keyword-case": ["lower"],
+    "no-invalid-position-at-import-rule": null,
+  },
 };

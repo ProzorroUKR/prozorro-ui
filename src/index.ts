@@ -1,4 +1,3 @@
-import './styles/main.scss';
+import "./styles/main.scss";
 
-export { PzButton } from './components/Button';
-export type { ButtonProps, ButtonVariant } from './components/Button';
+export { PzButton, type ButtonProps, type ButtonVariant } from "./components/Button";
