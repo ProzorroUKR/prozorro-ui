@@ -1,0 +1,5 @@
+dist
+storybook-static
+node_modules
+.husky/_
+package-lock.json

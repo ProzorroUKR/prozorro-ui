@@ -23,6 +23,8 @@ build
 .vitepress/cache/*
 !.vscode/extensions.json
 .vitepress/cache/*
+.husky/_/*
+!.husky/_/.gitignore
 .idea
 .DS_Store
 *.suo
@@ -30,5 +32,4 @@ build
 *.njsproj
 *.sln
 *.sw?
-
 

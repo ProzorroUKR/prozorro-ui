@@ -18,9 +18,7 @@ function cycleVariant() {
     <div class="playground__card">
       <p class="playground__eyebrow">prozorro-ui</p>
       <h1 class="playground__title">Component library playground</h1>
-      <p class="playground__description">
-        Local preview for the reference button component.
-      </p>
+      <p class="playground__description">Local preview for the reference button component.</p>
 
       <div class="playground__controls">
         <PzButton :label="`Variant: ${variant}`" :variant="variant" @click="cycleVariant" />
@@ -57,7 +55,7 @@ function cycleVariant() {
     border: 1px solid $color-border;
     border-radius: calc($border-radius-base * 1.5);
     background-color: rgba($color-background, 0.94);
-    box-shadow: 0 1rem 2.5rem rgba(24, 33, 47, 0.12);
+    box-shadow: 0 1rem 2.5rem rgb(24 33 47 / 12%);
   }
 
   &__eyebrow {
