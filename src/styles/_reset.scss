@@ -1,0 +1,30 @@
+@use './variables' as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family:
+    'Segoe UI',
+    Tahoma,
+    Geneva,
+    Verdana,
+    sans-serif;
+  color: $color-text;
+  background-color: $color-background;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
