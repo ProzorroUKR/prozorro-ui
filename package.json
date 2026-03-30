@@ -24,7 +24,8 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "npm run typecheck && vite build && copyfiles ./package.json dist && npm run removeFromBuild:lib",
+    "build": "npm run build:lib && npm run build:storybook",
+    "build:lib": "npm run typecheck && vite build && copyfiles ./package.json dist && npm run removeFromBuild:lib",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "lint": "npm run lint:eslint && npm run lint:styles",
@@ -32,7 +33,7 @@
     "lint:styles": "stylelint \"src/**/*.{scss,vue}\"",
     "prepare": "husky",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
+    "build:storybook": "storybook build --output-dir dist/app",
     "typecheck": "vue-tsc --noEmit",
     "removeFromBuild:lib": "rimraf ./dist/robots.txt ./dist/test-data",
     "clean": "rimraf dist"

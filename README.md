@@ -14,7 +14,7 @@ Vue 3 UI component library scaffold built with Vite library mode, TypeScript, SC
 - `npm run lint:styles` - lint SCSS files and Vue style blocks
 - `npm run prepare` - install Husky git hooks
 - `npm run storybook` - start Storybook
-- `npm run build-storybook` - build the static Storybook site
+- `npm run build-storybook` - build the static Storybook site into `dist/app`
 - `npm run typecheck` - run strict type checking
 
 ## Structure
