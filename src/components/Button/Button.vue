@@ -29,17 +29,16 @@ function handleClick(event: MouseEvent): void {
 
 <style scoped lang="scss">
 .pz-button {
-  @include focus-ring($color-primary);
+  @include focus-ring(var(--blue));
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: $spacing-2;
   min-height: 2.75rem;
-  padding: $spacing-3 $spacing-5;
+  padding: 0.75em 1.25em;
   border: 1px solid transparent;
-  border-radius: $border-radius-base;
-  font-size: $font-size-base;
+  border-radius: 3px;
+  font-size: var(--size-m);
   font-weight: 600;
   line-height: 1.2;
   cursor: pointer;
@@ -64,29 +63,11 @@ function handleClick(event: MouseEvent): void {
   }
 
   &--primary {
-    background-color: $color-primary;
-    color: $color-on-primary;
+    background-color: var(--blue-100);
+    color: var(--blue);
 
     &:hover:not(:disabled) {
-      background-color: $color-primary-dark;
-    }
-  }
-
-  &--secondary {
-    background-color: $color-secondary;
-    color: $color-on-secondary;
-
-    &:hover:not(:disabled) {
-      background-color: $color-secondary-dark;
-    }
-  }
-
-  &--danger {
-    background-color: $color-danger;
-    color: $color-on-danger;
-
-    &:hover:not(:disabled) {
-      background-color: $color-danger-dark;
+      background-color: var(--blue-200);
     }
   }
 
