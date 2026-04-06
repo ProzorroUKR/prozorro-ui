@@ -3,3 +3,5 @@ storybook-static
 node_modules
 .husky/_
 package-lock.json
+charts
+.gitlab-ci.yml

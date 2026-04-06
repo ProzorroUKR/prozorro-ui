@@ -11,6 +11,7 @@ export default defineConfig({
     vue(),
     !isStorybook &&
       dts({
+        tsconfigPath: "./tsconfig.build.json",
         include: ["src"],
         exclude: ["src/**/*.stories.ts", "src/dev.ts", "src/Playground.vue"],
         insertTypesEntry: true,
@@ -24,6 +25,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
+        api: "modern-compiler",
         additionalData: '@use "@/styles/abstract/_mixins.scss" as *;',
       },
     },
