@@ -1,0 +1,69 @@
+@use "abstract/mixins" as *;
+
+.pz-container {
+  @include pz-container;
+}
+
+.pz-container-fluid {
+  width: 100%;
+  padding-inline: var(--pz-grid-margin);
+  margin-inline: auto;
+}
+
+.pz-grid {
+  @include pz-grid;
+}
+
+.pz-grid-dense {
+  grid-auto-flow: dense;
+}
+
+.pz-grid-fit {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+}
+
+.pz-col-full {
+  grid-column: 1 / -1;
+}
+
+.pz-grid-item {
+  min-width: 0;
+}
+
+@mixin emit-grid-columns($prefix: "") {
+  .pz-col-#{$prefix}full {
+    grid-column: 1 / -1;
+  }
+
+  @for $index from 1 through 12 {
+    .pz-col-#{$prefix}#{$index} {
+      grid-column: span $index;
+    }
+
+    .pz-start-#{$prefix}#{$index} {
+      grid-column-start: $index;
+    }
+  }
+}
+
+@include emit-grid-columns;
+
+@include min-media-devices("sm") {
+  @include emit-grid-columns("sm-");
+}
+
+@include min-media-devices("md") {
+  @include emit-grid-columns("md-");
+}
+
+@include min-media-devices("lg") {
+  @include emit-grid-columns("lg-");
+}
+
+@include min-media-devices("xl") {
+  @include emit-grid-columns("xl-");
+}
+
+@include min-media-devices("xxl") {
+  @include emit-grid-columns("xxl-");
+}

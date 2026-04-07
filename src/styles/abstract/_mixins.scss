@@ -48,3 +48,19 @@ $breakpoints: (
     outline-offset: 2px;
   }
 }
+
+@mixin pz-container($max-width: var(--pz-grid-frame-max-width), $padding-inline: var(--pz-grid-margin)) {
+  width: min(100%, #{$max-width});
+  padding-inline: $padding-inline;
+  margin-inline: auto;
+}
+
+@mixin pz-grid($columns: var(--pz-grid-columns), $gap: var(--pz-grid-gutter)) {
+  display: grid;
+  grid-template-columns: repeat($columns, minmax(0, 1fr));
+  gap: $gap;
+}
+
+@mixin pz-grid-span($span) {
+  grid-column: span $span;
+}

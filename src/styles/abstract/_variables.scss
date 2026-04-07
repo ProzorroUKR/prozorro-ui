@@ -99,4 +99,40 @@
   --pz-font-size-16: 16px;
   --pz-font-size-14: 14px;
   --pz-font-size-12: 12px;
+
+  // Grid system
+  --pz-grid-columns-mobile: 4;
+  --pz-grid-columns-tablet: 8;
+  --pz-grid-columns-desktop: 12;
+  --pz-grid-gutter-mobile: 16px;
+  --pz-grid-gutter-tablet: 24px;
+  --pz-grid-gutter-desktop: 24px;
+  --pz-grid-margin-mobile: 16px;
+  --pz-grid-margin-tablet: 32px;
+  --pz-grid-margin-desktop: 80px;
+  --pz-grid-frame-max-width-mobile: 100%;
+  --pz-grid-frame-max-width-tablet: 768px;
+  --pz-grid-frame-max-width-desktop: 1440px;
+  --pz-grid-columns: var(--pz-grid-columns-mobile);
+  --pz-grid-gutter: var(--pz-grid-gutter-mobile);
+  --pz-grid-margin: var(--pz-grid-margin-mobile);
+  --pz-grid-frame-max-width: var(--pz-grid-frame-max-width-mobile);
+}
+
+@media (width >= 768px) {
+  :root {
+    --pz-grid-columns: var(--pz-grid-columns-tablet);
+    --pz-grid-gutter: var(--pz-grid-gutter-tablet);
+    --pz-grid-margin: var(--pz-grid-margin-tablet);
+    --pz-grid-frame-max-width: var(--pz-grid-frame-max-width-tablet);
+  }
+}
+
+@media (width >= 1200px) {
+  :root {
+    --pz-grid-columns: var(--pz-grid-columns-desktop);
+    --pz-grid-gutter: var(--pz-grid-gutter-desktop);
+    --pz-grid-margin: var(--pz-grid-margin-desktop);
+    --pz-grid-frame-max-width: var(--pz-grid-frame-max-width-desktop);
+  }
 }

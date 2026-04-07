@@ -1,0 +1,106 @@
+.pz-grid-story {
+  display: grid;
+  gap: 22px;
+}
+
+.pz-grid-story-board,
+.pz-grid-story-example {
+  display: grid;
+  gap: 18px;
+  padding: clamp(22px, 2vw, 30px);
+  border: 1px solid color-mix(in srgb, var(--pz-color-grey-30) 74%, transparent);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--pz-color-blue-50) 8%, transparent), transparent 32%),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--pz-color-white) 98%, transparent),
+      color-mix(in srgb, var(--pz-color-grey-20) 90%, var(--pz-color-white))
+    );
+  box-shadow:
+    0 18px 60px color-mix(in srgb, var(--pz-color-black-90) 7%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--pz-color-white) 98%, transparent);
+}
+
+.pz-grid-story-header,
+.pz-grid-story-hero,
+.pz-grid-story-card {
+  display: grid;
+  gap: 10px;
+}
+
+.pz-grid-story-kicker,
+.pz-grid-story-chip {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--pz-color-blue-10) 92%, var(--pz-color-white));
+  color: var(--pz-color-text-link-hover);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.pz-grid-story-layout,
+.pz-grid-story-nested {
+  align-items: stretch;
+}
+
+.pz-grid-story-card,
+.pz-grid-story-nested-card {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid color-mix(in srgb, var(--pz-color-grey-30) 72%, transparent);
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--pz-color-white) 94%, transparent);
+  box-shadow: 0 12px 36px color-mix(in srgb, var(--pz-color-black-90) 5%, transparent);
+}
+
+.pz-grid-story-card[data-tone="accent"] {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--pz-color-blue-10) 94%, var(--pz-color-white)),
+    color-mix(in srgb, var(--pz-color-blue-50) 8%, var(--pz-color-white))
+  );
+}
+
+.pz-grid-story-card[data-tone="success"] {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--pz-color-green-20) 96%, var(--pz-color-white)),
+    color-mix(in srgb, var(--pz-color-green-50) 8%, var(--pz-color-white))
+  );
+}
+
+.pz-grid-story-metric {
+  color: var(--pz-color-text-link-hover);
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.pz-grid-story-nested {
+  margin-top: 4px;
+}
+
+.pz-grid-story-nested-card {
+  display: grid;
+  place-items: center;
+  min-height: 96px;
+  color: var(--pz-color-text-link-hover);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+@media (width <= 640px) {
+  .pz-grid-story-board,
+  .pz-grid-story-example,
+  .pz-grid-story-card,
+  .pz-grid-story-nested-card {
+    padding: 18px;
+    border-radius: 22px;
+  }
+}

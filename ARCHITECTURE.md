@@ -25,6 +25,13 @@ This repository should stay focused on design-system concerns. It should not bec
 ```text
 src/
   components/
+    PzGrid/
+      PzGrid.vue
+      PzGridItem.vue
+      PzGrid.stories.ts
+      PzGrid.stories.scss
+      index.ts
+      types.ts
     PzText/
       PzText.vue
       PzText.stories.ts
@@ -35,16 +42,21 @@ src/
     Colors/
       Colors.stories.ts
       Colors.stories.scss
+    Grid/
+      Grid.stories.ts
+      Grid.stories.scss
   styles/
     abstract/
       _variables.scss
       _mixins.scss
       _typography.scss
+    _grid.scss
     vendors/
       _normalize.scss
       _google-material-icons.scss
     _reset.scss
     main.scss
+  dev.ts
   index.ts
 .storybook/
   main.ts
@@ -58,7 +70,7 @@ package.json
 
 ### 1. Public Library Layer
 
-The public surface starts in [src/index.ts](/Users/demon/Desktop/projects/prozorro-ui/src/index.ts).
+The public surface starts in [src/index.ts](/src/index.ts).
 
 Rules:
 
@@ -96,6 +108,12 @@ Rules:
 - Default behavior should be semantic and accessible.
 - Internal implementation details should not leak into the public API.
 
+Grid-specific component guidance:
+
+- Prefer component wrappers such as `PzGrid` and `PzGridItem` for public layout composition instead of expecting consumers to build class-name strings by hand.
+- Component layout props may map to shared utility classes internally, but the public API should stay typed and semantic.
+- When a layout primitive exists both as CSS utilities and as a Vue component API, the component API is the default recommendation in documentation and examples.
+
 ### 3. Style System Layer
 
 The style system is centralized under `src/styles`.
@@ -105,6 +123,7 @@ Responsibilities:
 - `_variables.scss`: design tokens and CSS custom properties
 - `_mixins.scss`: shared responsive and utility mixins
 - `_typography.scss`: typography contracts used by components
+- `_grid.scss`: emitted container, column, span, and offset utility classes used by both direct CSS consumers and grid components
 - `_reset.scss` and vendor styles: global base behavior
 - `main.scss`: library-wide style entrypoint
 
@@ -116,9 +135,16 @@ Rules:
 - Semantic usage tokens should map product meaning to raw tokens, for example `--pz-color-text-primary` or `--pz-color-button-primary`.
 - Gradients are first-class tokens. Do not hardcode auction or decorative gradients directly inside stories or components when a shared token is appropriate.
 - Use `--pz-font-size-*` numeric tokens for typography scale values. Do not introduce legacy aliases like `--size-xl` or ad hoc size variables.
+- Grid tokens should use the `--pz-grid-*` namespace for columns, gutter, margins, and frame width.
 - Avoid RGB helper variables. Use canonical hex/custom-property tokens and compose transparency in CSS where needed.
 - Component styles may consume tokens and mixins, but should not redefine the system.
 - Shared patterns should move upward into `abstract/` instead of being duplicated.
+
+Grid system layering should stay explicit:
+
+- tokens define the responsive grid contract
+- `_grid.scss` emits the low-level utility classes
+- `PzGrid` and `PzGridItem` provide the typed Vue API on top of that contract
 
 Current token grouping in `_variables.scss` should stay explicit:
 
@@ -126,6 +152,7 @@ Current token grouping in `_variables.scss` should stay explicit:
 - gradients
 - semantic usage tokens by category: text, buttons, status, background, tags, stroke, icons, misc
 - typography scale tokens
+- grid system tokens
 
 ### 4. Foundation Documentation Layer
 
@@ -134,6 +161,7 @@ Foundation stories live under `src/foundation/` and document the design system i
 Current example:
 
 - `Foundation/Colors`
+- `Foundation/Grid`
 
 Rules:
 
@@ -184,6 +212,7 @@ For tokens, use predictable prefixes:
 - color tokens: `--pz-color-*`
 - gradient tokens: `--pz-gradient-*`
 - font-size tokens: `--pz-font-size-*`
+- grid tokens: `--pz-grid-*`
 
 ### Semantics and Accessibility
 
@@ -232,6 +261,7 @@ In addition:
 - docs/source previews may simplify examples for readability, but they must not misrepresent the supported API shape
 - foundation stories should document tokens in grouped tables aligned with the design source
 - visual styling in Storybook should consume library tokens instead of private hardcoded palette copies
+- when a component API exists for a design-system primitive, Storybook examples should prefer that component API over raw utility classes
 
 ## Build and Packaging Model
 
@@ -250,6 +280,10 @@ Rules:
 - library code should be tree-shakeable where practical
 - generated output belongs in `dist/`, source code belongs in `src/`
 - do not import stories, playground files, or local development helpers into the public bundle
+
+Local development note:
+
+- `src/dev.ts` must import `src/styles/main.scss` before mounting `Playground.vue`; otherwise global grid and token styles will not apply in the standalone preview.
 
 ## Development Workflow
 
@@ -289,7 +323,9 @@ This validator should fail when:
 - a component does not use `<script setup lang="ts">`
 - a component does not declare its Vue component name via `defineOptions`
 - exported public types in `types.ts` are not prefixed with the component name
+- component package `index.ts` files stop re-exporting public `Pz*.vue` entries in that folder
 - `src/index.ts` stops importing `./styles/main.scss`
+- `src/dev.ts` stops importing `./styles/main.scss`
 - package style exports drift from the supported library contract
 
 This validator should stay small and deterministic. It is intended to enforce repository conventions, not replace design review.

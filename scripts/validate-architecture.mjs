@@ -7,6 +7,7 @@ const componentsDir = path.join(rootDir, "src", "components");
 const packageJsonPath = path.join(rootDir, "package.json");
 const rootIndexPath = path.join(rootDir, "src", "index.ts");
 const mainScssPath = path.join(rootDir, "src", "styles", "main.scss");
+const devEntryPath = path.join(rootDir, "src", "dev.ts");
 
 const issues = [];
 
@@ -67,7 +68,7 @@ function validateComponentDirectory(componentDir) {
   }
 
   if (existsSync(expectedIndexFile)) {
-    validateComponentIndexFile(componentName, expectedIndexFile);
+    validateComponentIndexFile(componentName, componentDir, expectedIndexFile);
   }
 }
 
@@ -104,12 +105,30 @@ function validateTypesFile(componentName, filePath) {
   }
 }
 
-function validateComponentIndexFile(componentName, filePath) {
+function getPublicVueComponentNames(componentDir) {
+  return readdirSync(componentDir)
+    .filter(name => name.endsWith(".vue"))
+    .map(name => path.basename(name, ".vue"))
+    .filter(name => name.startsWith("Pz"))
+    .sort((left, right) => left.localeCompare(right));
+}
+
+function validateComponentIndexFile(componentName, componentDir, filePath) {
   const source = readText(filePath);
   const expectedComponentExport = `export { default as ${componentName} } from "./${componentName}.vue";`;
 
   if (!source.includes(expectedComponentExport)) {
     addIssue(`${path.relative(rootDir, filePath)} should re-export ${componentName} from ./${componentName}.vue.`);
+  }
+
+  for (const publicComponentName of getPublicVueComponentNames(componentDir)) {
+    const expectedExport = `export { default as ${publicComponentName} } from "./${publicComponentName}.vue";`;
+
+    if (!source.includes(expectedExport)) {
+      addIssue(
+        `${path.relative(rootDir, filePath)} should re-export ${publicComponentName} from ./${publicComponentName}.vue.`,
+      );
+    }
   }
 
   if (!source.includes('from "./types"')) {
@@ -169,6 +188,20 @@ function validateStyleEntry() {
   }
 }
 
+function validateDevEntry() {
+  if (!existsSync(devEntryPath)) {
+    addIssue("Missing src/dev.ts.");
+
+    return;
+  }
+
+  const source = readText(devEntryPath);
+
+  if (!source.includes('import "./styles/main.scss";')) {
+    addIssue('src/dev.ts should import "./styles/main.scss" so local previews load global library styles.');
+  }
+}
+
 for (const componentDir of getComponentDirectories()) {
   validateComponentDirectory(componentDir);
 }
@@ -176,6 +209,7 @@ for (const componentDir of getComponentDirectories()) {
 validateRootExports();
 validatePackageJson();
 validateStyleEntry();
+validateDevEntry();
 
 if (issues.length > 0) {
   // eslint-disable-next-line no-undef
