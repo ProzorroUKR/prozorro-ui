@@ -227,6 +227,26 @@ To keep the library healthy over time:
 - keep naming consistent across components, stories, and exports
 - review responsive behavior, not only desktop states
 
+## Automated Validation
+
+Some architecture rules are subjective and still require review, but the machine-checkable ones should run automatically.
+
+Current automated entrypoint:
+
+- `npm run lint:architecture`
+
+This validator should fail when:
+
+- a component directory does not use the `Pz` prefix
+- a component is missing `Component.vue`, `index.ts`, `types.ts`, or `Component.stories.ts`
+- a component does not use `<script setup lang="ts">`
+- a component does not declare its Vue component name via `defineOptions`
+- exported public types in `types.ts` are not prefixed with the component name
+- `src/index.ts` stops importing `./styles/main.scss`
+- package style exports drift from the supported library contract
+
+This validator should stay small and deterministic. It is intended to enforce repository conventions, not replace design review.
+
 When the library grows, add:
 
 - automated unit tests for component logic
