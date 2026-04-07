@@ -1,0 +1,56 @@
+$spacing-properties: (
+  "m": margin,
+  "mt": margin-top,
+  "mr": margin-right,
+  "mb": margin-bottom,
+  "ml": margin-left,
+  "mx": margin-inline,
+  "my": margin-block,
+  "p": padding,
+  "pt": padding-top,
+  "pr": padding-right,
+  "pb": padding-bottom,
+  "pl": padding-left,
+  "px": padding-inline,
+  "py": padding-block,
+);
+$spacing-scale: (
+  "0": var(--pz-space-0),
+  "4": var(--pz-space-4),
+  "8": var(--pz-space-8),
+  "16": var(--pz-space-16),
+  "20": var(--pz-space-20),
+  "24": var(--pz-space-24),
+  "32": var(--pz-space-32),
+  "40": var(--pz-space-40),
+  "44": var(--pz-space-44),
+  "60": var(--pz-space-60),
+);
+
+@each $utility, $property in $spacing-properties {
+  @each $token, $value in $spacing-scale {
+    .pz-#{$utility}-#{$token} {
+      #{$property}: $value;
+    }
+  }
+}
+
+.pz-m-auto {
+  margin: auto;
+}
+
+.pz-mx-auto {
+  margin-inline: auto;
+}
+
+.pz-my-auto {
+  margin-block: auto;
+}
+
+.pz-ml-auto {
+  margin-left: auto;
+}
+
+.pz-mr-auto {
+  margin-right: auto;
+}

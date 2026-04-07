@@ -7,6 +7,7 @@ const componentsDir = path.join(rootDir, "src", "components");
 const packageJsonPath = path.join(rootDir, "package.json");
 const rootIndexPath = path.join(rootDir, "src", "index.ts");
 const mainScssPath = path.join(rootDir, "src", "styles", "main.scss");
+const spacingScssPath = path.join(rootDir, "src", "styles", "_spacing.scss");
 const devEntryPath = path.join(rootDir, "src", "dev.ts");
 
 const issues = [];
@@ -185,6 +186,18 @@ function validatePackageJson() {
 function validateStyleEntry() {
   if (!existsSync(mainScssPath)) {
     addIssue("Missing src/styles/main.scss.");
+
+    return;
+  }
+
+  if (!existsSync(spacingScssPath)) {
+    addIssue("Missing src/styles/_spacing.scss.");
+  }
+
+  const source = readText(mainScssPath);
+
+  if (!source.includes('@use "./spacing";')) {
+    addIssue('src/styles/main.scss should import "./spacing".');
   }
 }
 

@@ -45,12 +45,16 @@ src/
     Grid/
       Grid.stories.ts
       Grid.stories.scss
+    Spacing/
+      Spacing.stories.ts
+      Spacing.stories.scss
   styles/
     abstract/
       _variables.scss
       _mixins.scss
       _typography.scss
     _grid.scss
+    _spacing.scss
     vendors/
       _normalize.scss
       _google-material-icons.scss
@@ -124,6 +128,7 @@ Responsibilities:
 - `_mixins.scss`: shared responsive and utility mixins
 - `_typography.scss`: typography contracts used by components
 - `_grid.scss`: emitted container, column, span, and offset utility classes used by both direct CSS consumers and grid components
+- `_spacing.scss`: emitted margin and padding utility classes based on the shared spacing scale
 - `_reset.scss` and vendor styles: global base behavior
 - `main.scss`: library-wide style entrypoint
 
@@ -135,6 +140,7 @@ Rules:
 - Semantic usage tokens should map product meaning to raw tokens, for example `--pz-color-text-primary` or `--pz-color-button-primary`.
 - Gradients are first-class tokens. Do not hardcode auction or decorative gradients directly inside stories or components when a shared token is appropriate.
 - Use `--pz-font-size-*` numeric tokens for typography scale values. Do not introduce legacy aliases like `--size-xl` or ad hoc size variables.
+- Spacing tokens should use the `--pz-space-*` namespace and remain a small, reusable scale rather than one-off layout numbers.
 - Grid tokens should use the `--pz-grid-*` namespace for columns, gutter, margins, and frame width.
 - Avoid RGB helper variables. Use canonical hex/custom-property tokens and compose transparency in CSS where needed.
 - Component styles may consume tokens and mixins, but should not redefine the system.
@@ -152,6 +158,7 @@ Current token grouping in `_variables.scss` should stay explicit:
 - gradients
 - semantic usage tokens by category: text, buttons, status, background, tags, stroke, icons, misc
 - typography scale tokens
+- spacing scale tokens
 - grid system tokens
 
 ### 4. Foundation Documentation Layer
@@ -162,6 +169,7 @@ Current example:
 
 - `Foundation/Colors`
 - `Foundation/Grid`
+- `Foundation/Spacing`
 
 Rules:
 
@@ -212,6 +220,7 @@ For tokens, use predictable prefixes:
 - color tokens: `--pz-color-*`
 - gradient tokens: `--pz-gradient-*`
 - font-size tokens: `--pz-font-size-*`
+- spacing tokens: `--pz-space-*`
 - grid tokens: `--pz-grid-*`
 
 ### Semantics and Accessibility
@@ -326,6 +335,7 @@ This validator should fail when:
 - component package `index.ts` files stop re-exporting public `Pz*.vue` entries in that folder
 - `src/index.ts` stops importing `./styles/main.scss`
 - `src/dev.ts` stops importing `./styles/main.scss`
+- `src/styles/_spacing.scss` is missing or `src/styles/main.scss` stops importing `./spacing`
 - package style exports drift from the supported library contract
 
 This validator should stay small and deterministic. It is intended to enforce repository conventions, not replace design review.

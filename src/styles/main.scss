@@ -4,5 +4,6 @@
 @use "vendors/normalize" as *;
 @use "vendors/google-material-icons" as *;
 
+@use "./spacing";
 @use "./grid";
 @use "./reset";
