@@ -38,7 +38,7 @@ $breakpoints: (
 @mixin range-slider-thumb {
   width: 10%;
   height: 10px;
-  background: var(--blue-200);
+  background: var(--pz-color-button-primary);
   cursor: pointer;
 }
 

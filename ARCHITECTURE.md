@@ -31,6 +31,10 @@ src/
       PzText.stories.scss
       index.ts
       types.ts
+  foundation/
+    Colors/
+      Colors.stories.ts
+      Colors.stories.scss
   styles/
     abstract/
       _variables.scss
@@ -107,9 +111,37 @@ Responsibilities:
 Rules:
 
 - Tokens should be defined once and reused everywhere.
-- Prefer semantic token names over one-off numeric values inside components.
+- Raw tokens and semantic tokens must stay separate.
+- Raw color tokens belong in `_variables.scss` as source-of-truth palette values such as `--pz-color-blue-50`.
+- Semantic usage tokens should map product meaning to raw tokens, for example `--pz-color-text-primary` or `--pz-color-button-primary`.
+- Gradients are first-class tokens. Do not hardcode auction or decorative gradients directly inside stories or components when a shared token is appropriate.
+- Use `--pz-font-size-*` numeric tokens for typography scale values. Do not introduce legacy aliases like `--size-xl` or ad hoc size variables.
+- Avoid RGB helper variables. Use canonical hex/custom-property tokens and compose transparency in CSS where needed.
 - Component styles may consume tokens and mixins, but should not redefine the system.
 - Shared patterns should move upward into `abstract/` instead of being duplicated.
+
+Current token grouping in `_variables.scss` should stay explicit:
+
+- raw colors
+- gradients
+- semantic usage tokens by category: text, buttons, status, background, tags, stroke, icons, misc
+- typography scale tokens
+
+### 4. Foundation Documentation Layer
+
+Foundation stories live under `src/foundation/` and document the design system itself rather than a single component API.
+
+Current example:
+
+- `Foundation/Colors`
+
+Rules:
+
+- Foundation stories should mirror the Figma source structure closely enough to support design review.
+- Token documentation should separate raw palette values from semantic usage tokens.
+- If gradients exist in Figma, they must be documented explicitly instead of being implied by solid fallback colors.
+- Token tables should show the actual exported CSS variable name used by the library.
+- Foundation stories are documentation artifacts and should not be re-exported from the public library bundle.
 
 ## Vue 3 Standards
 
@@ -145,6 +177,13 @@ Avoid:
 - `bigText`
 - `cardTitleSecondaryV2`
 - `blueButtonAlt`
+
+For tokens, use predictable prefixes:
+
+- public component types: `Pz*`
+- color tokens: `--pz-color-*`
+- gradient tokens: `--pz-gradient-*`
+- font-size tokens: `--pz-font-size-*`
 
 ### Semantics and Accessibility
 
@@ -187,6 +226,13 @@ Storybook should support two roles:
 
 This repository already uses a prototype-style Storybook preview shell. That should remain design-system focused and consistent across components.
 
+In addition:
+
+- component stories should demonstrate the real public API
+- docs/source previews may simplify examples for readability, but they must not misrepresent the supported API shape
+- foundation stories should document tokens in grouped tables aligned with the design source
+- visual styling in Storybook should consume library tokens instead of private hardcoded palette copies
+
 ## Build and Packaging Model
 
 The library is built with Vite in library mode and `vite-plugin-dts`.
@@ -211,10 +257,11 @@ When adding or changing a component:
 
 1. Define or update the design-system token usage first.
 2. Implement the Vue component with a minimal typed API.
-3. Add Storybook stories for primary, edge, and variant states.
+3. Add or update Storybook stories for primary, edge, and variant states.
 4. Export the component and its public `Pz*` types.
-5. Verify linting, styling, and build behavior.
-6. Update README or architectural docs if the public contract changed.
+5. If tokens changed, update the relevant `src/foundation/` documentation stories.
+6. Verify linting, styling, and build behavior.
+7. Update README or architectural docs if the public contract changed.
 
 ## Support and Maintenance Practices
 
@@ -246,6 +293,13 @@ This validator should fail when:
 - package style exports drift from the supported library contract
 
 This validator should stay small and deterministic. It is intended to enforce repository conventions, not replace design review.
+
+Current limitations of automation:
+
+- it does not yet validate token grouping conventions inside `_variables.scss`
+- it does not yet validate `--pz-font-size-*` naming or prevent legacy size aliases
+- it does not yet validate that foundation stories cover raw colors, gradients, and semantic usage
+- it does not validate visual parity with Figma
 
 When the library grows, add:
 
