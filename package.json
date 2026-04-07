@@ -8,6 +8,7 @@
   "main": "dist/prozorro-ui.cjs",
   "module": "dist/prozorro-ui.js",
   "types": "dist/index.d.ts",
+  "style": "dist/style.css",
   "type": "module",
   "exports": {
     ".": {
@@ -15,12 +16,15 @@
       "import": "./dist/prozorro-ui.js",
       "require": "./dist/prozorro-ui.cjs"
     },
+    "./style.css": "./dist/style.css",
+    "./main.scss": "./src/styles/main.scss",
     "./dist/": {
       "import": "./dist"
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "src/styles"
   ],
   "scripts": {
     "dev": "vite",
@@ -51,10 +55,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
-    "@storybook/addon-essentials": "^8.6.12",
-    "@storybook/addon-interactions": "^8.6.12",
-    "@storybook/test": "^8.6.12",
-    "@storybook/vue3-vite": "^8.6.12",
+    "@storybook/addon-docs": "^10.3.4",
+    "@storybook/vue3-vite": "^10.3.4",
     "@types/node": "^24.5.2",
     "@vitejs/plugin-vue": "^5.2.4",
     "copyfiles": "^2.4.1",
@@ -71,7 +73,7 @@
     "prettier": "^3.8.1",
     "rimraf": "^6.1.3",
     "sass": "^1.92.1",
-    "storybook": "^8.6.12",
+    "storybook": "^10.3.4",
     "stylelint": "^17.6.0",
     "stylelint-config-html": "^1.1.0",
     "stylelint-config-recommended-scss": "^17.0.0",

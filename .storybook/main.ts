@@ -5,7 +5,7 @@ import { mergeConfig } from "vite";
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.stories.@(ts|tsx)"],
-  addons: ["@storybook/addon-essentials", "@storybook/addon-interactions"],
+  addons: ["@storybook/addon-docs"],
   framework: {
     name: "@storybook/vue3-vite",
     options: {},
@@ -20,7 +20,9 @@ const config: StorybookConfig = {
       css: {
         preprocessorOptions: {
           scss: {
-            additionalData: '@use "@/styles/abstract/_mixins.scss" as *;',
+            api: "modern-compiler",
+            additionalData:
+              '@use "@/styles/abstract/_mixins.scss" as *;\n@use "@/styles/abstract/_typography.scss" as *;',
           },
         },
       },

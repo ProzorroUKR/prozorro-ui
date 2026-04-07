@@ -1,3 +1,3 @@
 import "./styles/main.scss";
 
-export { PzButton, type ButtonProps, type ButtonVariant } from "./components/Button";
+export { PzText, type PzTextProps, type PzTextVariant, type PzTextTag } from "./components/PzText";
