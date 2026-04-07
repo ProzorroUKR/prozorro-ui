@@ -11,6 +11,11 @@ interface PrototypeParameters {
 const preview: Preview = {
   parameters: {
     layout: "fullscreen",
+    options: {
+      storySort: {
+        order: ["Foundation", ["Typography", "Colors", "Spacing", "Grid"], "Components", ["PzText", "PzGrid"]],
+      },
+    },
     backgrounds: {
       disable: true,
     },

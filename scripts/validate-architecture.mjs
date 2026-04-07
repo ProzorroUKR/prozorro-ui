@@ -7,8 +7,16 @@ const componentsDir = path.join(rootDir, "src", "components");
 const packageJsonPath = path.join(rootDir, "package.json");
 const rootIndexPath = path.join(rootDir, "src", "index.ts");
 const mainScssPath = path.join(rootDir, "src", "styles", "main.scss");
+const colorsScssPath = path.join(rootDir, "src", "styles", "_colors.scss");
 const spacingScssPath = path.join(rootDir, "src", "styles", "_spacing.scss");
 const devEntryPath = path.join(rootDir, "src", "dev.ts");
+const supportNamingRootPaths = [
+  path.join(rootDir, "src", "components"),
+  path.join(rootDir, "src", "services"),
+  path.join(rootDir, "src", "service"),
+  path.join(rootDir, "src", "utils"),
+  path.join(rootDir, "src", "util"),
+];
 
 const issues = [];
 
@@ -137,6 +145,46 @@ function validateComponentIndexFile(componentName, componentDir, filePath) {
   }
 }
 
+function walkDirectory(directoryPath, filePaths = []) {
+  for (const entryName of readdirSync(directoryPath)) {
+    const entryPath = path.join(directoryPath, entryName);
+
+    if (statSync(entryPath).isDirectory()) {
+      walkDirectory(entryPath, filePaths);
+      continue;
+    }
+
+    filePaths.push(entryPath);
+  }
+
+  return filePaths;
+}
+
+function validateSupportFileNames(baseDir) {
+  if (!existsSync(baseDir)) {
+    return;
+  }
+
+  for (const filePath of walkDirectory(baseDir)) {
+    const fileName = path.basename(filePath);
+    const relativePath = path.relative(rootDir, filePath);
+
+    if (fileName === "config.ts") {
+      addIssue(`${relativePath} should be named configs.ts.`);
+    }
+
+    if (fileName === "constant.ts") {
+      addIssue(`${relativePath} should be named constants.ts.`);
+    }
+  }
+}
+
+function validateRepositorySupportFileNames() {
+  for (const baseDir of supportNamingRootPaths) {
+    validateSupportFileNames(baseDir);
+  }
+}
+
 function validateRootExports() {
   if (!existsSync(rootIndexPath)) {
     addIssue("Missing src/index.ts.");
@@ -194,7 +242,15 @@ function validateStyleEntry() {
     addIssue("Missing src/styles/_spacing.scss.");
   }
 
+  if (!existsSync(colorsScssPath)) {
+    addIssue("Missing src/styles/_colors.scss.");
+  }
+
   const source = readText(mainScssPath);
+
+  if (!source.includes('@use "./colors";')) {
+    addIssue('src/styles/main.scss should import "./colors".');
+  }
 
   if (!source.includes('@use "./spacing";')) {
     addIssue('src/styles/main.scss should import "./spacing".');
@@ -219,6 +275,7 @@ for (const componentDir of getComponentDirectories()) {
   validateComponentDirectory(componentDir);
 }
 
+validateRepositorySupportFileNames();
 validateRootExports();
 validatePackageJson();
 validateStyleEntry();

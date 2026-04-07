@@ -24,6 +24,14 @@ interface ColorTokenGroup {
   sections: ColorTokenSection[];
 }
 
+interface ColorUtilityExample {
+  title: string;
+  note: string;
+  code: string;
+  surfaceClass: string;
+  textClass?: string;
+}
+
 const solid = (token: string, value: string, variable: string): ColorTokenRow => ({
   token,
   value,
@@ -38,6 +46,34 @@ const gradient = (token: string, value: string, variable: string): ColorTokenRow
   swatch: value,
   isGradient: true,
 });
+
+const getUtilityClasses = (item: ColorTokenRow): { textClass: string | null; backgroundClass: string } => {
+  const colorPrefix = "--pz-color-";
+  const gradientPrefix = "--pz-gradient-";
+
+  if (item.variable.startsWith(colorPrefix)) {
+    const suffix = item.variable.slice(colorPrefix.length);
+
+    return {
+      textClass: `.pz-text-${suffix}`,
+      backgroundClass: `.pz-bg-${suffix}`,
+    };
+  }
+
+  if (item.variable.startsWith(gradientPrefix)) {
+    const suffix = item.variable.slice(gradientPrefix.length);
+
+    return {
+      textClass: null,
+      backgroundClass: `.pz-bg-${suffix}`,
+    };
+  }
+
+  return {
+    textClass: null,
+    backgroundClass: "n/a",
+  };
+};
 
 const colorGroups: ColorTokenGroup[] = [
   {
@@ -200,6 +236,22 @@ const colorGroups: ColorTokenGroup[] = [
   },
 ];
 
+const colorUtilityExamples: ColorUtilityExample[] = [
+  {
+    title: "Text utilities",
+    note: "Use `.pz-text-*` classes when text color needs semantic token mapping without a component prop.",
+    code: '<p class="pz-text-primary">Primary text</p>\n<p class="pz-text-secondary">Secondary text</p>\n<a class="pz-text-link">Read more</a>',
+    surfaceClass: "pz-bg-primary",
+  },
+  {
+    title: "Background utilities",
+    note: "Use `.pz-bg-*` classes for semantic surfaces, tags, and quick layout framing in prototypes.",
+    code: '<div class="pz-bg-frame pz-p-16">\n  <span class="pz-bg-tag-blue pz-p-8">Info tag</span>\n</div>',
+    surfaceClass: "pz-bg-frame",
+    textClass: "pz-text-primary",
+  },
+];
+
 const meta = {
   title: "Foundation/Colors",
   parameters: {
@@ -210,7 +262,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Color token reference based on the Figma `Color tokens` page. Raw colors, gradients, and semantic variables are grouped separately.",
+          "Color token reference based on the Figma `Color tokens` page. Raw colors, gradients, semantic variables, and emitted `.pz-text-*` / `.pz-bg-*` utility classes are grouped separately.",
       },
     },
   },
@@ -220,7 +272,7 @@ const meta = {
       const getSwatchStyle = (item: ColorTokenRow): CSSProperties =>
         item.isGradient ? { backgroundImage: item.swatch } : { backgroundColor: item.swatch };
 
-      return { colorGroups, getSwatchStyle };
+      return { colorGroups, colorUtilityExamples, getSwatchStyle, getUtilityClasses };
     },
     template: `
       <div class="colors-specimen">
@@ -234,6 +286,35 @@ const meta = {
               </pz-text>
             </div>
           </header>
+
+          <section class="colors-specimen-utilities">
+            <div class="colors-specimen-section-title">
+              <pz-text variant="h4-bold">Utility classes</pz-text>
+              <pz-text variant="small-regular">Semantic helpers emitted by the library stylesheet.</pz-text>
+            </div>
+
+            <div class="colors-specimen-utility-grid">
+              <article
+                v-for="example in colorUtilityExamples"
+                :key="example.title"
+                class="colors-specimen-utility-card"
+              >
+                <div class="colors-specimen-utility-copy">
+                  <pz-text variant="h4-semibold">{{ example.title }}</pz-text>
+                  <pz-text variant="small-regular">{{ example.note }}</pz-text>
+                </div>
+
+                <div :class="['colors-specimen-utility-preview', example.surfaceClass, example.textClass]">
+                  <p class="pz-text-primary">Primary text sample</p>
+                  <p class="pz-text-secondary">Secondary supporting text</p>
+                  <p class="pz-text-link">Interactive link color</p>
+                  <span class="colors-specimen-utility-tag pz-bg-tag-blue pz-p-8">Info tag</span>
+                </div>
+
+                <pre class="colors-specimen-utility-code"><code>{{ example.code }}</code></pre>
+              </article>
+            </div>
+          </section>
 
           <section
             v-for="group in colorGroups"
@@ -260,6 +341,7 @@ const meta = {
                 <div class="colors-specimen-head">Token</div>
                 <div class="colors-specimen-head">Value</div>
                 <div class="colors-specimen-head">Variable</div>
+                <div class="colors-specimen-head">Classes</div>
 
                 <template
                   v-for="item in section.items"
@@ -281,6 +363,10 @@ const meta = {
                   <div class="colors-specimen-cell colors-specimen-cell-token">
                     <code>{{ item.variable }}</code>
                   </div>
+                  <div class="colors-specimen-cell colors-specimen-cell-classes">
+                    <code v-if="getUtilityClasses(item).textClass">{{ getUtilityClasses(item).textClass }}</code>
+                    <code>{{ getUtilityClasses(item).backgroundClass }}</code>
+                  </div>
                 </template>
               </div>
             </section>
@@ -295,4 +381,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Overview: Story = {};
+export const Reference: Story = {
+  name: "Reference",
+};

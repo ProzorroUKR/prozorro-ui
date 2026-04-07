@@ -1,0 +1,90 @@
+$pz-solid-color-utilities: (
+  "white": var(--pz-color-white),
+  "black-90": var(--pz-color-black-90),
+  "grey-20": var(--pz-color-grey-20),
+  "grey-30": var(--pz-color-grey-30),
+  "grey-40": var(--pz-color-grey-40),
+  "grey-60": var(--pz-color-grey-60),
+  "blue-10": var(--pz-color-blue-10),
+  "blue-30": var(--pz-color-blue-30),
+  "blue-50": var(--pz-color-blue-50),
+  "blue-60": var(--pz-color-blue-60),
+  "red-30": var(--pz-color-red-30),
+  "red-40": var(--pz-color-red-40),
+  "red-50": var(--pz-color-red-50),
+  "red-60": var(--pz-color-red-60),
+  "orange-50": var(--pz-color-orange-50),
+  "orange-60": var(--pz-color-orange-60),
+  "green-20": var(--pz-color-green-20),
+  "green-30": var(--pz-color-green-30),
+  "green-50": var(--pz-color-green-50),
+  "green-60": var(--pz-color-green-60),
+  "gradient-blue": var(--pz-color-gradient-blue),
+  "gradient-green": var(--pz-color-gradient-green),
+  "gradient-orange": var(--pz-color-gradient-orange),
+  "text-primary": var(--pz-color-text-primary),
+  "text-secondary": var(--pz-color-text-secondary),
+  "text-link": var(--pz-color-text-link),
+  "text-link-hover": var(--pz-color-text-link-hover),
+  "text-link-disabled": var(--pz-color-text-link-disabled),
+  "button-danger": var(--pz-color-button-danger),
+  "button-danger-hover": var(--pz-color-button-danger-hover),
+  "button-primary": var(--pz-color-button-primary),
+  "button-primary-hover": var(--pz-color-button-primary-hover),
+  "button-success-light": var(--pz-color-button-success-light),
+  "button-success": var(--pz-color-button-success),
+  "button-success-hover": var(--pz-color-button-success-hover),
+  "button-alert": var(--pz-color-button-alert),
+  "button-alert-hover": var(--pz-color-button-alert-hover),
+  "button-disabled": var(--pz-color-button-disabled),
+  "status-inactive": var(--pz-color-status-inactive),
+  "status-hidden": var(--pz-color-status-hidden),
+  "status-active": var(--pz-color-status-active),
+  "status-monitoring": var(--pz-color-status-monitoring),
+  "status-disabled": var(--pz-color-status-disabled),
+  "status-progress": var(--pz-color-status-progress),
+  "background-primary": var(--pz-color-background-primary),
+  "background-frame": var(--pz-color-background-frame),
+  "background-hover": var(--pz-color-background-hover),
+  "tag-green": var(--pz-color-tag-green),
+  "tag-grey": var(--pz-color-tag-grey),
+  "tag-blue": var(--pz-color-tag-blue),
+  "tag-red": var(--pz-color-tag-red),
+  "stroke-red": var(--pz-color-stroke-red),
+  "stroke-grey": var(--pz-color-stroke-grey),
+  "icon-primary": var(--pz-color-icon-primary),
+  "icon-hover": var(--pz-color-icon-hover),
+  "icon-danger": var(--pz-color-icon-danger),
+  "icon-danger-hover": var(--pz-color-icon-danger-hover),
+  "icon-success-light": var(--pz-color-icon-success-light),
+  "icon-success": var(--pz-color-icon-success),
+  "icon-success-hover": var(--pz-color-icon-success-hover),
+  "icon-alert": var(--pz-color-icon-alert),
+  "icon-alert-hover": var(--pz-color-icon-alert-hover),
+  "icon-disabled": var(--pz-color-icon-disabled),
+  "auction-red-text": var(--pz-color-auction-red-text),
+);
+$pz-gradient-color-utilities: (
+  "gradient-blue": var(--pz-gradient-blue),
+  "gradient-green": var(--pz-gradient-green),
+  "gradient-orange": var(--pz-gradient-orange),
+  "status-auction-progress": var(--pz-gradient-status-auction-progress),
+  "status-auction-waiting": var(--pz-gradient-status-auction-waiting),
+  "status-auction-success": var(--pz-gradient-status-auction-success),
+);
+
+@each $name, $value in $pz-solid-color-utilities {
+  .pz-text-#{$name} {
+    color: $value;
+  }
+
+  .pz-bg-#{$name} {
+    background-color: $value;
+  }
+}
+
+@each $name, $value in $pz-gradient-color-utilities {
+  .pz-bg-#{$name} {
+    background-image: $value;
+  }
+}

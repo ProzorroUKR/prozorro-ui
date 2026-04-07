@@ -1,89 +1,47 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 
 import "./PzText.stories.scss";
+import { pzTextTagOptions, pzTextVariantOptions } from "./configs";
 import PzText from "./PzText.vue";
-import type { PzTextProps, PzTextTag, PzTextVariant } from "./types";
+import type { PzTextProps } from "./types";
 
-const variantOptions = [
-  "h1-bold",
-  "h1-regular",
-  "h2-bold",
-  "h3-bold",
-  "h3-regular",
-  "h4-regular",
-  "h4-semibold",
-  "h4-bold",
-  "subtitle",
-  "body-regular",
-  "body-semibold",
-  "body-bold",
-  "capitalized",
-  "hint",
-  "line-through",
-  "small-regular",
-  "small-semibold",
-  "small-bold",
-  "link",
-  "document",
-] satisfies PzTextVariant[];
-
-const tagOptions = ["h1", "h2", "h3", "h4", "h5", "h6", "p", "span", "div", "a", "label"] satisfies PzTextTag[];
-
-const variantSamples: Array<{ variant: PzTextVariant; label: string; spec: string }> = [
-  { variant: "h1-bold", label: "Headline Bold 1", spec: "44px / 700 / 1.5" },
-  { variant: "h1-regular", label: "Headline Regular 1", spec: "44px / 400 / 1.5" },
-  { variant: "h2-bold", label: "Headline Bold 2", spec: "32px / 700 / 1.5" },
-  { variant: "h3-bold", label: "Headline Bold 3", spec: "24px / 700 / 1.5" },
-  { variant: "h3-regular", label: "Headline Regular 3", spec: "24px / 400 / 1.5" },
-  { variant: "h4-regular", label: "Headline Regular 4", spec: "18px / 400 / 1.5" },
-  { variant: "h4-semibold", label: "Headline Semibold 4", spec: "18px / 600 / 1.5" },
-  { variant: "h4-bold", label: "Headline Bold 4", spec: "18px / 700 / 1.5" },
-  { variant: "subtitle", label: "Subtitle", spec: "16px / 600 / 1.5" },
-  { variant: "body-regular", label: "Body text regular", spec: "14px / 400 / 1.5" },
-  { variant: "body-semibold", label: "Body text semibold", spec: "14px / 600 / 1.5" },
-  { variant: "body-bold", label: "Body text bold", spec: "14px / 700 / 1.5" },
-  { variant: "capitalized", label: "Capitalized text", spec: "14px / 400 / uppercase" },
-  { variant: "hint", label: "Hint text", spec: "14px / 400 / muted" },
-  { variant: "line-through", label: "Archived value", spec: "14px / 400 / strike" },
-  { variant: "small-regular", label: "Small text regular", spec: "12px / 400 / 1.5" },
-  { variant: "small-semibold", label: "Small text semibold", spec: "12px / 600 / 1.5" },
-  { variant: "small-bold", label: "Small text bold", spec: "12px / 700 / 1.5" },
-  { variant: "link", label: "Review procurement details", spec: "14px / 400 / underline" },
-  { variant: "document", label: "Document text", spec: "14px / 400 / default" },
-];
-
-const headlineVariantsCount = 8;
-const readingVariantsCount = 15;
-
-const variantGroups = [
-  {
-    title: "Headlines",
-    description: "Primary hierarchy for pages, sections and table headers.",
-    items: variantSamples.slice(0, headlineVariantsCount),
-  },
-  {
-    title: "Reading text",
-    description: "Core editorial styles for descriptions, summaries and UI copy.",
-    items: variantSamples.slice(headlineVariantsCount, readingVariantsCount),
-  },
-  {
-    title: "Utility styles",
-    description: "Compact text styles for metadata, helpers and document references.",
-    items: variantSamples.slice(readingVariantsCount),
-  },
-];
-
-type TextStoryArgs = PzTextProps & {
+type PzTextStoryArgs = PzTextProps & {
   content?: string;
 };
 
+const formatVariantLabel = (variant: string): string =>
+  variant
+    .split("-")
+    .map(segment => segment.charAt(0).toUpperCase() + segment.slice(1))
+    .join(" ");
+
 const meta = {
-  title: "Foundation/PzText",
+  title: "Components/PzText",
   component: PzText,
   parameters: {
     prototype: {
-      caption: "Typography review",
-      note: "Prototype board for validating hierarchy, weight and semantics against the design-system text scale.",
+      caption: "Text component",
+      note: "Component-level playground for semantic tag overrides and text variant rendering.",
+    },
+    docs: {
+      description: {
+        component:
+          "Vue text primitive for rendering the shared typography variants. Use `Foundation/Typography` for the full type-scale reference and `Components/PzText` for the component API.",
+      },
+      source: {
+        transform: (_source: string, context: { args?: PzTextStoryArgs }) => {
+          const args = (context.args ?? {}) as PzTextStoryArgs;
+          const attributes = [
+            args.variant ? `variant="${args.variant}"` : null,
+            args.as ? `as="${args.as}"` : null,
+            args.content ? `content="${args.content}"` : null,
+          ]
+            .filter(Boolean)
+            .join(" ");
+
+          return `<template>\n  <PzText ${attributes} />\n</template>`;
+        },
+      },
     },
   },
   args: {
@@ -93,12 +51,12 @@ const meta = {
   argTypes: {
     variant: {
       control: "select",
-      options: variantOptions,
+      options: pzTextVariantOptions,
       description: "Text style variant from the Design System.",
     },
     as: {
       control: "select",
-      options: tagOptions,
+      options: pzTextTagOptions,
       description: "HTML tag to render. Defaults to a semantic tag based on variant.",
     },
     content: {
@@ -107,21 +65,21 @@ const meta = {
       table: { category: "Slots" },
     },
   },
-  render: (args: TextStoryArgs) => ({
+  render: (args: PzTextStoryArgs) => ({
     components: { pzText: PzText },
     setup() {
-      const currentSample = variantSamples.find(sample => sample.variant === args.variant) ?? variantSamples[0];
+      const currentLabel = formatVariantLabel(args.variant);
 
-      return { args, currentSample };
+      return { args, currentLabel };
     },
     template: `
       <section class="pz-text-demo">
         <div class="pz-text-demo-header">
           <div>
             <span class="pz-text-demo-eyebrow">Live preview</span>
-            <h2 class="pz-text-demo-title">{{ currentSample.label }}</h2>
+            <h2 class="pz-text-demo-title">{{ currentLabel }}</h2>
           </div>
-          <span class="pz-text-demo-spec">{{ currentSample.spec }}</span>
+          <span class="pz-text-demo-spec">{{ args.variant }}</span>
         </div>
 
         <div class="pz-text-demo-surface">
@@ -130,72 +88,11 @@ const meta = {
       </section>
     `,
   }),
-} satisfies Meta<TextStoryArgs>;
+} satisfies Meta<PzTextStoryArgs>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
-
-export const AllVariants: Story = {
-  name: "All variants",
-  parameters: {
-    prototype: {
-      caption: "Typography prototype board",
-      note: "Specimen sheet for reviewing the full Prozorro text scale in a single prototype canvas.",
-    },
-  },
-  render: args => ({
-    components: { pzText: PzText },
-    setup() {
-      return { args, variantGroups };
-    },
-    template: `
-      <div class="pz-text-board">
-        <section class="pz-text-board-hero">
-          <div class="pz-text-board-hero-copy">
-            <span class="pz-text-board-eyebrow">Design system / Typography</span>
-            <h1 class="pz-text-board-title">Readable hierarchy for procurement interfaces</h1>
-            <p class="pz-text-board-description">
-              The board below mirrors a Figma-style specimen page: one live editable preview, followed by grouped text tokens with their size and weight metadata.
-            </p>
-          </div>
-
-          <div class="pz-text-board-hero-preview">
-            <span class="pz-text-board-chip">Interactive sample</span>
-            <pz-text :variant="args.variant" :as="args.as">{{ args.content }}</pz-text>
-          </div>
-        </section>
-
-        <section
-          v-for="group in variantGroups"
-          :key="group.title"
-          class="pz-text-board-group"
-        >
-          <header class="pz-text-board-group-header">
-            <div>
-              <span class="pz-text-board-group-kicker">{{ group.title }}</span>
-              <h2 class="pz-text-board-group-title">{{ group.description }}</h2>
-            </div>
-          </header>
-
-          <div class="pz-text-board-grid">
-            <article
-              v-for="sample in group.items"
-              :key="sample.variant"
-              class="pz-text-board-card"
-            >
-              <div class="pz-text-board-meta">
-                <span class="pz-text-board-variant">{{ sample.variant }}</span>
-                <span class="pz-text-board-spec">{{ sample.spec }}</span>
-              </div>
-              <pz-text :variant="sample.variant">{{ sample.label }}</pz-text>
-            </article>
-          </div>
-        </section>
-      </div>
-    `,
-  }),
-};
 
 export const H1Bold: Story = {
   name: "H1 Bold",

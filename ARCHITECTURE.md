@@ -27,12 +27,14 @@ src/
   components/
     PzGrid/
       PzGrid.vue
+      configs.ts
       PzGridItem.vue
       PzGrid.stories.ts
       PzGrid.stories.scss
       index.ts
       types.ts
     PzText/
+      configs.ts
       PzText.vue
       PzText.stories.ts
       PzText.stories.scss
@@ -48,11 +50,15 @@ src/
     Spacing/
       Spacing.stories.ts
       Spacing.stories.scss
+    Typography/
+      Typography.stories.ts
+      Typography.stories.scss
   styles/
     abstract/
       _variables.scss
       _mixins.scss
       _typography.scss
+    _colors.scss
     _grid.scss
     _spacing.scss
     vendors/
@@ -96,6 +102,8 @@ Recommended shape:
 
 ```text
 src/components/PzComponent/
+  configs.ts
+  constants.ts
   PzComponent.vue
   PzComponent.stories.ts
   PzComponent.stories.scss
@@ -107,6 +115,8 @@ Rules:
 
 - Component names use the `Pz` prefix.
 - Public types also use the `Pz` prefix, for example `PzTextProps`.
+- Shared component configuration lists should live in `configs.ts`.
+- Shared component constants should live in `constants.ts`.
 - Props should be explicit, typed, and minimal.
 - Slots are preferred for flexible content composition.
 - Default behavior should be semantic and accessible.
@@ -127,6 +137,7 @@ Responsibilities:
 - `_variables.scss`: design tokens and CSS custom properties
 - `_mixins.scss`: shared responsive and utility mixins
 - `_typography.scss`: typography contracts used by components
+- `_colors.scss`: emitted semantic color utility classes for text and background helpers
 - `_grid.scss`: emitted container, column, span, and offset utility classes used by both direct CSS consumers and grid components
 - `_spacing.scss`: emitted margin and padding utility classes based on the shared spacing scale
 - `_reset.scss` and vendor styles: global base behavior
@@ -139,6 +150,7 @@ Rules:
 - Raw color tokens belong in `_variables.scss` as source-of-truth palette values such as `--pz-color-blue-50`.
 - Semantic usage tokens should map product meaning to raw tokens, for example `--pz-color-text-primary` or `--pz-color-button-primary`.
 - Gradients are first-class tokens. Do not hardcode auction or decorative gradients directly inside stories or components when a shared token is appropriate.
+- Semantic color utilities should be emitted from the shared style layer. Use `.pz-text-*` for text color helpers and `.pz-bg-*` for background helpers.
 - Use `--pz-font-size-*` numeric tokens for typography scale values. Do not introduce legacy aliases like `--size-xl` or ad hoc size variables.
 - Spacing tokens should use the `--pz-space-*` namespace and remain a small, reusable scale rather than one-off layout numbers.
 - Grid tokens should use the `--pz-grid-*` namespace for columns, gutter, margins, and frame width.
@@ -170,11 +182,15 @@ Current example:
 - `Foundation/Colors`
 - `Foundation/Grid`
 - `Foundation/Spacing`
+- `Foundation/Typography`
 
 Rules:
 
 - Foundation stories should mirror the Figma source structure closely enough to support design review.
+- Foundation stories document the system itself; interactive component API stories belong under `Components/*`.
+- Story-specific demo data should stay inside the story file instead of becoming reusable component module state.
 - Token documentation should separate raw palette values from semantic usage tokens.
+- When the library emits utility classes for a token family, foundation stories should show at least one live usage example.
 - If gradients exist in Figma, they must be documented explicitly instead of being implied by solid fallback colors.
 - Token tables should show the actual exported CSS variable name used by the library.
 - Foundation stories are documentation artifacts and should not be re-exported from the public library bundle.
@@ -268,6 +284,7 @@ In addition:
 
 - component stories should demonstrate the real public API
 - docs/source previews may simplify examples for readability, but they must not misrepresent the supported API shape
+- when a story uses a large custom render template, provide an explicit docs/source example so the code preview remains readable
 - foundation stories should document tokens in grouped tables aligned with the design source
 - visual styling in Storybook should consume library tokens instead of private hardcoded palette copies
 - when a component API exists for a design-system primitive, Storybook examples should prefer that component API over raw utility classes
@@ -337,6 +354,8 @@ This validator should fail when:
 - `src/dev.ts` stops importing `./styles/main.scss`
 - `src/styles/_spacing.scss` is missing or `src/styles/main.scss` stops importing `./spacing`
 - package style exports drift from the supported library contract
+- `src/styles/_colors.scss` is missing or `src/styles/main.scss` stops importing `./colors`
+- helper files in component directories use `config.ts` or `constant.ts` instead of `configs.ts` and `constants.ts`
 
 This validator should stay small and deterministic. It is intended to enforce repository conventions, not replace design review.
 

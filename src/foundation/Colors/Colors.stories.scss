@@ -41,6 +41,67 @@
   gap: 18px;
 }
 
+.colors-specimen-utilities {
+  display: grid;
+  gap: 18px;
+}
+
+.colors-specimen-utility-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.colors-specimen-utility-card {
+  display: grid;
+  gap: 16px;
+  padding: 22px;
+  border: 1px solid color-mix(in srgb, var(--pz-color-grey-30) 68%, transparent);
+  border-radius: 26px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--pz-color-white) 98%, transparent),
+    color-mix(in srgb, var(--pz-color-grey-20) 88%, var(--pz-color-white))
+  );
+}
+
+.colors-specimen-utility-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.colors-specimen-utility-preview {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, var(--pz-color-grey-30) 70%, transparent);
+  border-radius: 20px;
+}
+
+.colors-specimen-utility-preview p {
+  margin: 0;
+}
+
+.colors-specimen-utility-tag {
+  display: inline-flex;
+  justify-self: start;
+  border-radius: 10px;
+}
+
+.colors-specimen-utility-code {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--pz-color-black-90) 4%, var(--pz-color-white));
+}
+
+.colors-specimen-utility-code code {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--pz-color-text-primary);
+}
+
 .colors-specimen-group-title {
   display: flex;
   align-items: center;
@@ -81,7 +142,7 @@
 
 .colors-specimen-table {
   display: grid;
-  grid-template-columns: 118px minmax(180px, 220px) minmax(220px, 1fr) minmax(220px, 280px);
+  grid-template-columns: 118px minmax(180px, 220px) minmax(180px, 1fr) minmax(220px, 260px) minmax(220px, 280px);
   border: 1px solid color-mix(in srgb, var(--pz-color-grey-30) 72%, transparent);
   border-radius: 22px;
   overflow: hidden;
@@ -123,6 +184,18 @@
   color: var(--pz-color-text-primary);
 }
 
+.colors-specimen-cell-classes {
+  display: grid;
+  gap: 8px;
+  align-content: center;
+}
+
+.colors-specimen-cell-classes code {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--pz-color-text-primary);
+}
+
 .colors-specimen-swatch {
   display: inline-flex;
   width: 80px;
@@ -144,6 +217,10 @@
   .colors-specimen-group-title {
     flex-direction: column;
     align-items: start;
+  }
+
+  .colors-specimen-utility-grid {
+    grid-template-columns: 1fr;
   }
 
   .colors-specimen-section {
