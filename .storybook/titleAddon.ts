@@ -5,16 +5,16 @@ addons.register("TitleAddon", api => {
 
   const setTitle = (): void => {
     let storyData = null;
+
     try {
       storyData = api.getCurrentStoryData();
     } catch (e) {
       console.error(e);
     }
 
-    document.title =
-      storyData !== null && storyData.title
-        ? `${storyData.title.replace(/\//g, " / ")} - ${storyData.name} ⋅ ${PAGE_TITLE}`
-        : PAGE_TITLE;
+    document.title = storyData?.title
+      ? `${storyData.title.replace(/\//g, " / ")} - ${storyData.name} ⋅ ${PAGE_TITLE}`
+      : PAGE_TITLE;
   };
 
   return new MutationObserver(() => {
