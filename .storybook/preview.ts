@@ -13,7 +13,12 @@ const preview: Preview = {
     layout: "fullscreen",
     options: {
       storySort: {
-        order: ["Foundation", ["Typography", "Colors", "Spacing", "Grid"], "Components", ["PzText", "PzGrid"]],
+        order: [
+          "Foundation",
+          ["Typography", "Colors", "Spacing", "Grid"],
+          "Components",
+          ["PzText", "PzIcon", "PzImage", "PzGrid"],
+        ],
       },
     },
     backgrounds: {

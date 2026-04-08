@@ -16,12 +16,15 @@
     format("woff2");
 }
 
-.material-icons {
+.pz-material-icon {
   font-family: "Material Icons", sans-serif;
   font-weight: normal;
   font-style: normal;
-  font-size: var(--pz-font-size-16);
-  line-height: inherit;
+  font-size: var(--pz-icon-size, var(--pz-font-size-16));
+  line-height: 1;
+  color: var(--pz-icon-color, currentColor);
+  vertical-align: middle;
+  user-select: none;
   letter-spacing: normal;
   text-transform: none;
   display: inline-block;
