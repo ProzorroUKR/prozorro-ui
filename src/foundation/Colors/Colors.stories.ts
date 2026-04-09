@@ -101,6 +101,7 @@ const colorGroups: ColorTokenGroup[] = [
           solid("Grey 20", "#F5F5F5", "--pz-color-grey-20"),
           solid("Grey 30", "#D6DADE", "--pz-color-grey-30"),
           solid("Grey 40", "#C0C0C0", "--pz-color-grey-40"),
+          solid("Grey 50", "#939393", "--pz-color-grey-50"),
           solid("Grey 60", "#6D6D6D", "--pz-color-grey-60"),
           solid("Black 90", "#242638", "--pz-color-black-90"),
           solid("Red 30", "#F7DCDC", "--pz-color-red-30"),
@@ -154,7 +155,7 @@ const colorGroups: ColorTokenGroup[] = [
           solid("Text grey", "#6D6D6D", "--pz-color-text-secondary"),
           solid("Link primary", "#2070D1", "--pz-color-text-link"),
           solid("Link hover", "#014DA8", "--pz-color-text-link-hover"),
-          solid("Link disable", "#C0C0C0", "--pz-color-text-link-disabled"),
+          solid("Link disable", "#939393", "--pz-color-text-link-disabled"),
         ],
       },
       {

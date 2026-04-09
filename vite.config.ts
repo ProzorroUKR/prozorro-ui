@@ -38,10 +38,11 @@ export default defineConfig({
       fileName: format => (format === "es" ? "prozorro-ui.js" : "prozorro-ui.cjs"),
     },
     rollupOptions: {
-      external: ["vue"],
+      external: ["vue", "vue-router"],
       output: {
         globals: {
           vue: "Vue",
+          "vue-router": "VueRouter",
         },
       },
     },
