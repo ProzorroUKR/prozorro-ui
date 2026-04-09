@@ -17,7 +17,7 @@ const preview: Preview = {
           "Foundation",
           ["Typography", "Colors", "Spacing", "Grid"],
           "Components",
-          ["PzText", "PzIcon", "PzImage", "PzGrid"],
+          ["PzText", "PzIcon", "PzImage", "PzTag", "PzStatus", "PzLink", "PzGrid"],
         ],
       },
     },

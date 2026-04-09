@@ -17,4 +17,7 @@ export {
   type PzImageLoading,
   type PzImageProps,
 } from "./components/PzImage";
+export { PzLink, type PzLinkProps, type PzLinkTarget, type PzLinkVariant } from "./components/PzLink";
+export { PzStatus, type PzStatusProps, type PzStatusTag, type PzStatusVariant } from "./components/PzStatus";
+export { PzTag, type PzTagProps, type PzTagTag, type PzTagVariant } from "./components/PzTag";
 export { PzText, type PzTextProps, type PzTextVariant, type PzTextTag } from "./components/PzText";
