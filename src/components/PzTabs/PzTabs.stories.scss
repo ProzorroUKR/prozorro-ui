@@ -1,0 +1,195 @@
+.pz-tabs-story {
+  display: grid;
+  gap: var(--pz-space-24);
+}
+
+.pz-tabs-story-gallery {
+  display: grid;
+  gap: var(--pz-space-16);
+}
+
+.pz-tabs-story-frame {
+  display: grid;
+  gap: var(--pz-space-16);
+  padding: var(--pz-space-24);
+  border: 1px solid color-mix(in srgb, var(--pz-color-grey-30) 74%, transparent);
+  border-radius: var(--pz-space-24);
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--pz-color-blue-50) 8%, transparent), transparent 36%),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--pz-color-white) 98%, transparent),
+      color-mix(in srgb, var(--pz-color-grey-20) 90%, var(--pz-color-white))
+    );
+}
+
+.pz-tabs-story-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: var(--pz-space-16);
+}
+
+.pz-tabs-story-eyebrow,
+.pz-tabs-story-chip {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: var(--pz-space-8) var(--pz-space-16);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--pz-color-blue-10) 92%, var(--pz-color-white));
+  color: var(--pz-color-text-link-hover);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.pz-tabs-story-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--pz-space-16);
+}
+
+.pz-tabs-story-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: var(--pz-space-20);
+  padding: var(--pz-space-20);
+  border: 1px solid color-mix(in srgb, var(--pz-color-grey-30) 74%, transparent);
+  border-radius: var(--pz-space-20);
+  background: color-mix(in srgb, var(--pz-color-white) 96%, transparent);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--pz-color-black-90) 5%, transparent);
+}
+
+.pz-tabs-story-card-surface {
+  border-radius: var(--pz-space-16);
+}
+
+.pz-tabs-story-panel {
+  display: grid;
+  gap: var(--pz-space-16);
+  padding: var(--pz-space-24);
+}
+
+.pz-tabs-story-copy,
+.pz-tabs-story-panel-head {
+  display: grid;
+  gap: var(--pz-space-12);
+}
+
+.pz-tabs-story-panel-head {
+  padding-bottom: var(--pz-space-16);
+  border-bottom: 1px solid rgb(91 69 37 / 16%);
+}
+
+.pz-tabs-story-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pz-space-12);
+  flex-wrap: wrap;
+  color: rgb(91 69 37 / 78%);
+}
+
+.pz-tabs-story-bullet {
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: currentcolor;
+}
+
+.pz-tabs-story-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pz-space-8);
+  padding: 6px var(--pz-space-12);
+  border: 1px solid rgb(91 69 37 / 18%);
+  border-radius: var(--pz-space-4);
+  background: rgb(255 252 244 / 72%);
+  color: rgb(91 69 37 / 86%);
+  font-size: var(--pz-font-size-12);
+  line-height: 1;
+}
+
+.pz-tabs-story-muted {
+  color: var(--pz-color-text-secondary);
+  text-decoration: line-through;
+}
+
+.pz-tabs-story-stack {
+  display: grid;
+  gap: var(--pz-space-12);
+}
+
+.pz-tabs-story-poem {
+  display: grid;
+  gap: var(--pz-space-16);
+}
+
+.pz-tabs-story-stanza {
+  display: grid;
+  gap: var(--pz-space-4);
+  padding-left: var(--pz-space-16);
+  border-left: 2px solid rgb(91 69 37 / 14%);
+}
+
+.pz-tabs-story-poem-line {
+  color: rgb(53 37 18 / 92%);
+}
+
+.pz-tabs-story-note {
+  color: rgb(91 69 37 / 72%);
+}
+
+.pz-tabs-story-example-copy {
+  display: grid;
+  align-content: start;
+  gap: var(--pz-space-12);
+}
+
+.pz-tabs-story-example-surface {
+  display: grid;
+  gap: var(--pz-space-16);
+}
+
+.pz-tabs-story-kpi-list {
+  display: grid;
+  gap: 1px;
+  background: color-mix(in srgb, var(--pz-color-grey-30) 80%, transparent);
+}
+
+.pz-tabs-story-kpi {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--pz-space-12);
+  align-items: center;
+  padding: var(--pz-space-16);
+  background: var(--pz-color-background-primary);
+}
+
+.pz-tabs-story-kpi-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  padding: var(--pz-space-8) var(--pz-space-12);
+  border-radius: var(--pz-space-4);
+  background: color-mix(in srgb, var(--pz-color-blue-10) 88%, var(--pz-color-white));
+  color: var(--pz-color-text-link-hover);
+  font-size: var(--pz-font-size-14);
+  font-weight: 700;
+}
+
+.pz-tabs-story-narrow {
+  width: min(100%, 360px);
+}
+
+@media (width <= 768px) {
+  .pz-tabs-story-header {
+    flex-direction: column;
+  }
+
+  .pz-tabs-story-card {
+    grid-template-columns: 1fr;
+  }
+}

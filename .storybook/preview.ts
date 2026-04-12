@@ -1,7 +1,28 @@
-import type { Preview } from "@storybook/vue3-vite";
+import { setup, type Preview } from "@storybook/vue3-vite";
+import { createMemoryHistory, createRouter } from "vue-router";
 
 import "@/styles/main.scss";
 import "./preview.scss";
+
+const storybookRouter = createRouter({
+  history: createMemoryHistory(),
+  routes: [
+    {
+      path: "/",
+      component: { template: "<div />" },
+    },
+    {
+      path: "/:pathMatch(.*)*",
+      component: { template: "<div />" },
+    },
+  ],
+});
+
+void storybookRouter.push("/");
+
+setup(app => {
+  app.use(storybookRouter);
+});
 
 interface PrototypeParameters {
   caption?: string;
@@ -17,7 +38,7 @@ const preview: Preview = {
           "Foundation",
           ["Typography", "Colors", "Spacing", "Grid"],
           "Components",
-          ["PzText", "PzIcon", "PzImage", "PzTag", "PzStatus", "PzLink", "PzGrid"],
+          ["PzText", "PzIcon", "PzImage", "PzTag", "PzStatus", "PzLink", "PzNav", "PzTabs", "PzRouterLink", "PzGrid"],
         ],
       },
     },
