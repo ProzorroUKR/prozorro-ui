@@ -37,3 +37,4 @@ export { PzText, type PzTextProps, type PzTextVariant, type PzTextTag } from "./
 export { PzTextClamp, type PzTextClampProps } from "./components/PzTextClamp";
 export { PzScrollTo, type PzScrollBehavior, type PzScrollToOptions, type PzScrollToTarget } from "./utils/PzScrollTo";
 export { PzValidatorXSS, type PzValidatorXSSQuery } from "./utils/PzValidatorXSS";
+export { PzDomHandler } from "./utils/PzDomHandler";

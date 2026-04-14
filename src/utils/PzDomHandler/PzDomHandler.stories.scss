@@ -1,0 +1,121 @@
+.pz-dom-handler-story {
+  padding: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: var(--pz-font-family, sans-serif);
+  color: var(--pz-color-text-primary, #2d3436);
+
+  &__header {
+    margin-bottom: 48px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 24px;
+  }
+
+  &__section {
+    margin-bottom: 64px;
+  }
+
+  &__title {
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  &__methods {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  &__method-card {
+    border: 1px solid #e0e0e0;
+    padding: 24px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 2%);
+  }
+
+  &__method-signature {
+    font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+    background: #f1f2f6;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #d63031;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+
+  &__demo-box {
+    padding: 32px;
+    background: #f9f9f9;
+    border-radius: 16px;
+    border: 1px solid #eee;
+    margin-top: 16px;
+  }
+
+  &__bg-sample {
+    padding: 24px;
+    border-radius: 8px;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 1px 2px rgb(0 0 0 / 50%);
+  }
+
+  &__input-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  &__input {
+    flex: 1;
+    padding: 10px 16px;
+    border: 1px solid #dfe6e9;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+
+    &:focus {
+      border-color: #0984e3;
+    }
+  }
+
+  &__button {
+    padding: 10px 24px;
+    background: #0984e3;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #074b83;
+    }
+
+    &--copied {
+      background: #00b894;
+
+      &:hover {
+        background: #008f72;
+      }
+    }
+  }
+
+  &__code-block {
+    background: #f1f2f6;
+    color: #2d3436;
+    padding: 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin-top: 12px;
+  }
+}
