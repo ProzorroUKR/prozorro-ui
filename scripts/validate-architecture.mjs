@@ -203,6 +203,83 @@ function validateSupportFileNames(baseDir) {
   }
 }
 
+function validateNoUnusedExportsWithinModule(moduleDir) {
+  const supportFiles = [
+    { fileName: "configs.ts", importPaths: ["./configs"] },
+    { fileName: "constants.ts", importPaths: ["./constants"] },
+  ];
+
+  const moduleFiles = readdirSync(moduleDir)
+    .filter(entryName => statSync(path.join(moduleDir, entryName)).isFile())
+    .map(entryName => path.join(moduleDir, entryName));
+
+  for (const supportFile of supportFiles) {
+    const supportFilePath = path.join(moduleDir, supportFile.fileName);
+
+    if (!existsSync(supportFilePath)) {
+      continue;
+    }
+
+    const source = readText(supportFilePath);
+    const exportMatches = [...source.matchAll(/export\s+const\s+([A-Za-z0-9_]+)/g)];
+
+    for (const [, exportName] of exportMatches) {
+      const isUsedExternally = moduleFiles
+        .filter(filePath => filePath !== supportFilePath)
+        .some(filePath => {
+          const fileSource = readText(filePath);
+          return fileSource.includes(exportName);
+        });
+
+      if (!isUsedExternally) {
+        addIssue(
+          `${path.relative(rootDir, supportFilePath)} exports "${exportName}", but it is never used in its module or re-exported from index.ts.`,
+        );
+      }
+    }
+  }
+}
+
+function validateNoUnusedModuleSupportFiles(moduleDir) {
+  const supportFiles = [
+    { fileName: "types.ts", importPaths: ["./types"] },
+    { fileName: "configs.ts", importPaths: ["./configs"] },
+    { fileName: "constants.ts", importPaths: ["./constants"] },
+  ];
+  const modulePathFromSrc = path.relative(path.join(rootDir, "src"), moduleDir).split(path.sep).join("/");
+
+  const moduleFiles = readdirSync(moduleDir)
+    .filter(entryName => statSync(path.join(moduleDir, entryName)).isFile())
+    .map(entryName => path.join(moduleDir, entryName));
+
+  for (const supportFile of supportFiles) {
+    const supportFilePath = path.join(moduleDir, supportFile.fileName);
+
+    if (!existsSync(supportFilePath)) {
+      continue;
+    }
+
+    const supportedImportPaths = [
+      ...supportFile.importPaths,
+      `@/${modulePathFromSrc}/${path.basename(supportFile.fileName, path.extname(supportFile.fileName))}`,
+    ];
+
+    const isImported = moduleFiles
+      .filter(filePath => filePath !== supportFilePath)
+      .some(filePath => {
+        const source = readText(filePath);
+
+        return supportedImportPaths.some(importPath => source.includes(importPath));
+      });
+
+    if (!isImported) {
+      addIssue(
+        `${path.relative(rootDir, supportFilePath)} is not imported by any sibling file in its module and should be removed if unused.`,
+      );
+    }
+  }
+}
+
 function validateNoExportedTypesOutsideTypesFile(baseDir) {
   if (!existsSync(baseDir)) {
     return;
@@ -383,18 +460,24 @@ function validateServiceOrUtilityDirectory(moduleDir, moduleKind) {
 
     validateModuleIndexFile(moduleName, expectedIndexFile, primaryImplementationImport);
   }
+
+  validateNoUnusedModuleSupportFiles(moduleDir);
 }
 
 for (const componentDir of getComponentDirectories()) {
   validateComponentDirectory(componentDir);
+  validateNoUnusedModuleSupportFiles(componentDir);
+  validateNoUnusedExportsWithinModule(componentDir);
 }
 
 for (const serviceDir of getModuleDirectories(servicesDir)) {
   validateServiceOrUtilityDirectory(serviceDir, "Service");
+  validateNoUnusedExportsWithinModule(serviceDir);
 }
 
 for (const utilityDir of getModuleDirectories(utilsDir)) {
   validateServiceOrUtilityDirectory(utilityDir, "Utility");
+  validateNoUnusedExportsWithinModule(utilityDir);
 }
 
 validateRepositorySupportFileNames();

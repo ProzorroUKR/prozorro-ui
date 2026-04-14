@@ -1,0 +1,153 @@
+.pz-scroll-to-story {
+  display: grid;
+  gap: 24px;
+}
+
+.pz-scroll-to-story-toolbar,
+.pz-scroll-to-story-section,
+.pz-scroll-to-story-method-card,
+.pz-scroll-to-story-type-card {
+  padding: clamp(24px, 3vw, 32px);
+  border: 1px solid color-mix(in srgb, var(--pz-color-grey-40) 58%, transparent);
+  border-radius: 28px;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--pz-color-white) 98%, transparent),
+      color-mix(in srgb, var(--pz-color-grey-40) 10%, var(--pz-color-white))
+    ),
+    linear-gradient(135deg, color-mix(in srgb, var(--pz-color-blue-50) 4%, transparent), transparent 42%);
+  box-shadow:
+    0 18px 60px color-mix(in srgb, var(--pz-color-black-90) 8%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--pz-color-white) 96%, transparent);
+}
+
+.pz-scroll-to-story-toolbar,
+.pz-scroll-to-story-copy,
+.pz-scroll-to-story-methods,
+.pz-scroll-to-story-types,
+.pz-scroll-to-story-section,
+.pz-scroll-to-story-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.pz-scroll-to-story-toolbar {
+  position: sticky;
+  top: 16px;
+  z-index: 3;
+}
+
+.pz-scroll-to-story-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, var(--pz-color-grey-40) 56%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--pz-color-white) 92%, transparent);
+}
+
+.pz-scroll-to-story-methods,
+.pz-scroll-to-story-types {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pz-scroll-to-story-method-card,
+.pz-scroll-to-story-type-card,
+.pz-scroll-to-story-method-header {
+  display: grid;
+  gap: 12px;
+}
+
+.pz-scroll-to-story-eyebrow,
+.pz-scroll-to-story-kicker {
+  display: inline-flex;
+  width: fit-content;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pz-color-text-link-hover);
+}
+
+.pz-scroll-to-story-button {
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--pz-color-button-primary);
+  border-radius: 4px;
+  background: var(--pz-color-button-primary);
+  color: var(--pz-color-white);
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+
+  @include typography-body-regular;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--pz-color-button-primary-hover);
+    background: var(--pz-color-button-primary-hover);
+    outline: none;
+  }
+
+  &--ghost {
+    border-color: color-mix(in srgb, var(--pz-color-grey-60) 56%, transparent);
+    background: var(--pz-color-white);
+    color: var(--pz-color-text-primary);
+  }
+}
+
+.pz-scroll-to-story-paper {
+  min-height: 240px;
+  border-radius: 12px;
+  background:
+    linear-gradient(color-mix(in srgb, var(--pz-color-blue-50) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--pz-color-blue-50) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(180deg, #fff, #f9fbff);
+  background-size:
+    100% 28px,
+    28px 100%,
+    100% 100%;
+}
+
+.pz-scroll-to-story-code {
+  margin: 0;
+  padding: 16px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--pz-color-black-90) 4%, var(--pz-color-white));
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+
+  @include typography-small-regular;
+}
+
+.pz-scroll-to-highlight {
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--pz-color-blue-50) 22%, transparent),
+    0 18px 48px color-mix(in srgb, var(--pz-color-black-90) 10%, transparent);
+}
+
+@media (width <= 1024px) {
+  .pz-scroll-to-story-methods,
+  .pz-scroll-to-story-types {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (width <= 640px) {
+  .pz-scroll-to-story-toolbar,
+  .pz-scroll-to-story-section,
+  .pz-scroll-to-story-method-card,
+  .pz-scroll-to-story-type-card {
+    padding: 20px;
+    border-radius: 22px;
+  }
+
+  .pz-scroll-to-story-toolbar {
+    top: 8px;
+  }
+}

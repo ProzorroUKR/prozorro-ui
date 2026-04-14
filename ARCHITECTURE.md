@@ -133,6 +133,7 @@ Rules:
 - Types must live in `types.ts`.
 - Shared component configuration lists must live in `configs.ts`.
 - Shared component constants must live in `constants.ts`.
+- Do not keep unused `types.ts`, `configs.ts`, or `constants.ts` files. If the module does not import them, remove them.
 - Props should be explicit, typed, and minimal.
 - Slots are preferred for flexible content composition.
 - Default behavior should be semantic and accessible.
@@ -174,6 +175,7 @@ Rules:
 - Types must live in `types.ts`.
 - Shared configuration lists must live in `configs.ts`.
 - Shared constants must live in `constants.ts`.
+- Do not keep unused `types.ts`, `configs.ts`, or `constants.ts` files. If the module does not import them, remove them.
 - Public modules should re-export their public surface from a local `index.ts`.
 - Keep these modules framework-light and deterministic. If a Vue-specific adapter is needed, keep it in the component layer or in a clearly named adapter module.
 
@@ -259,6 +261,7 @@ These file placement rules apply across `components`, `services`, and `utils`:
 - Shared constants belong in `constants.ts`.
 - Public folder-level exports belong in `index.ts`.
 - Avoid scattering public module contracts across implementation files.
+- Do not leave unused support files in a module. `types.ts`, `configs.ts`, and `constants.ts` should exist only when another file in that module imports them.
 
 ## Vue 3 Standards
 
