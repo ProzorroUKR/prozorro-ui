@@ -1,5 +1,6 @@
 import "./styles/main.scss";
 
+export { PzBreadcrumb, type PzBreadcrumbItem, type PzBreadcrumbProps } from "./components/PzBreadcrumb";
 export {
   PzGrid,
   PzGridItem,

@@ -12,6 +12,36 @@ const storybookRouter = createRouter({
       component: { template: "<div />" },
     },
     {
+      path: "/breadcrumbs",
+      component: { template: "<RouterView />" },
+      children: [
+        {
+          path: "tenders",
+          component: { template: "<RouterView />" },
+          meta: { breadcrumb: "Тендери" },
+          children: [
+            {
+              path: "transport",
+              component: { template: "<RouterView />" },
+              meta: { breadcrumb: "Транспорт" },
+              children: [
+                {
+                  path: "vaz-21703",
+                  component: { template: "<div />" },
+                  meta: { breadcrumb: "Автомобіль ВАЗ 21703" },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          path: "modules",
+          component: { template: "<div />" },
+          meta: { name: "Публічні модулі" },
+        },
+      ],
+    },
+    {
       path: "/:pathMatch(.*)*",
       component: { template: "<div />" },
     },
@@ -38,7 +68,19 @@ const preview: Preview = {
           "Foundation",
           ["Typography", "Colors", "Spacing", "Grid"],
           "Components",
-          ["PzText", "PzIcon", "PzImage", "PzTag", "PzStatus", "PzLink", "PzNav", "PzTabs", "PzRouterLink", "PzGrid"],
+          [
+            "PzText",
+            "PzIcon",
+            "PzImage",
+            "PzTag",
+            "PzStatus",
+            "PzLink",
+            "PzBreadcrumb",
+            "PzNav",
+            "PzTabs",
+            "PzRouterLink",
+            "PzGrid",
+          ],
         ],
       },
     },
