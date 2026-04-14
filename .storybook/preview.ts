@@ -69,7 +69,10 @@ const preview: Preview = {
           ["Typography", "Colors", "Spacing", "Grid"],
           "Components",
           [
+            "PzArrayClamp",
+            "PzModal",
             "PzText",
+            "PzTextClamp",
             "PzIcon",
             "PzImage",
             "PzTag",

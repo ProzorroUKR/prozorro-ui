@@ -40,6 +40,20 @@ src/
       PzText.stories.scss
       index.ts
       types.ts
+  services/
+    someService/
+      configs.ts
+      constants.ts
+      index.ts
+      someService.ts
+      types.ts
+  utils/
+    someUtility/
+      configs.ts
+      constants.ts
+      index.ts
+      someUtility.ts
+      types.ts
   foundation/
     Colors/
       Colors.stories.ts
@@ -84,9 +98,10 @@ The public surface starts in [src/index.ts](/src/index.ts).
 
 Rules:
 
-- Export only supported components and their `Pz*` types.
+- Export only supported components, services, utilities, and their public types.
 - Keep exports flat and predictable.
 - Publish style entrypoints intentionally: compiled CSS for drop-in adoption and SCSS for Sass-based consumers.
+- If a service or utility is intended for direct library consumption, it must be re-exported from the root entrypoint just like a component.
 
 Current public style entrypoints:
 
@@ -115,8 +130,9 @@ Rules:
 
 - Component names use the `Pz` prefix.
 - Public types also use the `Pz` prefix, for example `PzTextProps`.
-- Shared component configuration lists should live in `configs.ts`.
-- Shared component constants should live in `constants.ts`.
+- Types must live in `types.ts`.
+- Shared component configuration lists must live in `configs.ts`.
+- Shared component constants must live in `constants.ts`.
 - Props should be explicit, typed, and minimal.
 - Slots are preferred for flexible content composition.
 - Default behavior should be semantic and accessible.
@@ -128,7 +144,46 @@ Grid-specific component guidance:
 - Component layout props may map to shared utility classes internally, but the public API should stay typed and semantic.
 - When a layout primitive exists both as CSS utilities and as a Vue component API, the component API is the default recommendation in documentation and examples.
 
-### 3. Style System Layer
+### 3. Services and Utilities Layer
+
+Some library features will be consumed directly without a Vue wrapper. Those modules belong in `src/services/` and `src/utils/`.
+
+Recommended shape:
+
+```text
+src/services/someService/
+  configs.ts
+  constants.ts
+  index.ts
+  someService.ts
+  types.ts
+
+src/utils/someUtility/
+  configs.ts
+  constants.ts
+  index.ts
+  someUtility.ts
+  types.ts
+```
+
+Rules:
+
+- Services and utilities are first-class public modules when they are exported from the library root.
+- Services and utilities should not depend on Vue components, Storybook stories, or application state.
+- Components may wrap services and utilities, but services and utilities must not depend on component modules.
+- Types must live in `types.ts`.
+- Shared configuration lists must live in `configs.ts`.
+- Shared constants must live in `constants.ts`.
+- Public modules should re-export their public surface from a local `index.ts`.
+- Keep these modules framework-light and deterministic. If a Vue-specific adapter is needed, keep it in the component layer or in a clearly named adapter module.
+
+Dependency direction:
+
+- components -> services/utils is allowed
+- services/utils -> components is not allowed
+- stories/foundation docs may depend on any public module for demonstration
+
+### 4. Style System Layer
 
 The style system is centralized under `src/styles`.
 
@@ -173,7 +228,7 @@ Current token grouping in `_variables.scss` should stay explicit:
 - spacing scale tokens
 - grid system tokens
 
-### 4. Foundation Documentation Layer
+### 5. Foundation Documentation Layer
 
 Foundation stories live under `src/foundation/` and document the design system itself rather than a single component API.
 
@@ -195,6 +250,16 @@ Rules:
 - Token tables should show the actual exported CSS variable name used by the library.
 - Foundation stories are documentation artifacts and should not be re-exported from the public library bundle.
 
+## Module Conventions
+
+These file placement rules apply across `components`, `services`, and `utils`:
+
+- Exported types and interfaces belong in `types.ts`.
+- Shared configuration lists belong in `configs.ts`.
+- Shared constants belong in `constants.ts`.
+- Public folder-level exports belong in `index.ts`.
+- Avoid scattering public module contracts across implementation files.
+
 ## Vue 3 Standards
 
 This library should follow modern Vue 3 patterns:
@@ -211,6 +276,13 @@ For design-system components, the default expectation is controlled simplicity:
 - no hidden async behavior
 - no implicit global state
 - no direct coupling to app stores, routers, or API clients
+
+For services and utilities, the matching expectation is:
+
+- no implicit app state
+- no hidden DOM dependence unless the utility is explicitly DOM-focused
+- no coupling to Storybook or design-review code
+- no component imports in low-level modules
 
 ## Design System Standards
 

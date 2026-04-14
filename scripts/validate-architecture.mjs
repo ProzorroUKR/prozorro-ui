@@ -4,6 +4,8 @@ import process from "node:process";
 
 const rootDir = process.cwd();
 const componentsDir = path.join(rootDir, "src", "components");
+const servicesDir = path.join(rootDir, "src", "services");
+const utilsDir = path.join(rootDir, "src", "utils");
 const packageJsonPath = path.join(rootDir, "package.json");
 const rootIndexPath = path.join(rootDir, "src", "index.ts");
 const mainScssPath = path.join(rootDir, "src", "styles", "main.scss");
@@ -28,17 +30,23 @@ function readText(filePath) {
   return readFileSync(filePath, "utf8");
 }
 
-function getComponentDirectories() {
-  if (!existsSync(componentsDir)) {
-    addIssue("Missing src/components directory.");
+function getModuleDirectories(baseDir, missingDirMessage) {
+  if (!existsSync(baseDir)) {
+    if (missingDirMessage) {
+      addIssue(missingDirMessage);
+    }
 
     return [];
   }
 
-  return readdirSync(componentsDir)
-    .map(name => path.join(componentsDir, name))
+  return readdirSync(baseDir)
+    .map(name => path.join(baseDir, name))
     .filter(entryPath => statSync(entryPath).isDirectory())
     .sort((left, right) => left.localeCompare(right));
+}
+
+function getComponentDirectories() {
+  return getModuleDirectories(componentsDir, "Missing src/components directory.");
 }
 
 function validateComponentDirectory(componentDir) {
@@ -95,7 +103,7 @@ function validateVueComponentFile(componentName, filePath) {
   }
 }
 
-function validateTypesFile(componentName, filePath) {
+function validateTypesFile(moduleName, filePath, { enforcePrefix = true } = {}) {
   const source = readText(filePath);
   const exportMatches = [...source.matchAll(/export\s+(?:type|interface)\s+([A-Za-z0-9_]+)/g)];
 
@@ -105,10 +113,14 @@ function validateTypesFile(componentName, filePath) {
     return;
   }
 
+  if (!enforcePrefix) {
+    return;
+  }
+
   for (const [, exportName] of exportMatches) {
-    if (!exportName.startsWith(componentName)) {
+    if (!exportName.startsWith(moduleName)) {
       addIssue(
-        `${path.relative(rootDir, filePath)} exports "${exportName}", but public component types must be prefixed with "${componentName}".`,
+        `${path.relative(rootDir, filePath)} exports "${exportName}", but public component types must be prefixed with "${moduleName}".`,
       );
     }
   }
@@ -142,6 +154,18 @@ function validateComponentIndexFile(componentName, componentDir, filePath) {
 
   if (!source.includes('from "./types"')) {
     addIssue(`${path.relative(rootDir, filePath)} should re-export public types from ./types.`);
+  }
+}
+
+function validateModuleIndexFile(moduleName, filePath, moduleImportPath) {
+  const source = readText(filePath);
+
+  if (!source.includes('from "./types"')) {
+    addIssue(`${path.relative(rootDir, filePath)} should re-export public types from ./types.`);
+  }
+
+  if (moduleImportPath && !source.includes(moduleImportPath)) {
+    addIssue(`${path.relative(rootDir, filePath)} should re-export the public implementation for "${moduleName}".`);
   }
 }
 
@@ -179,6 +203,32 @@ function validateSupportFileNames(baseDir) {
   }
 }
 
+function validateNoExportedTypesOutsideTypesFile(baseDir) {
+  if (!existsSync(baseDir)) {
+    return;
+  }
+
+  for (const filePath of walkDirectory(baseDir)) {
+    const relativePath = path.relative(rootDir, filePath);
+    const fileName = path.basename(filePath);
+    const extension = path.extname(filePath);
+
+    if (![".ts", ".vue"].includes(extension)) {
+      continue;
+    }
+
+    if (fileName === "types.ts") {
+      continue;
+    }
+
+    const source = readText(filePath);
+
+    if (/export\s+(?:type|interface)\s+[A-Za-z0-9_]+/g.test(source)) {
+      addIssue(`${relativePath} should move exported types and interfaces into types.ts.`);
+    }
+  }
+}
+
 function validateRepositorySupportFileNames() {
   for (const baseDir of supportNamingRootPaths) {
     validateSupportFileNames(baseDir);
@@ -196,6 +246,26 @@ function validateRootExports() {
 
   if (!source.includes('import "./styles/main.scss";')) {
     addIssue('src/index.ts should import "./styles/main.scss".');
+  }
+
+  validateRootExportsForModules(source, servicesDir, "./services");
+  validateRootExportsForModules(source, utilsDir, "./utils");
+}
+
+function validateRootExportsForModules(rootIndexSource, baseDir, publicBaseImportPath) {
+  if (!existsSync(baseDir)) {
+    return;
+  }
+
+  for (const moduleDir of getModuleDirectories(baseDir)) {
+    const moduleName = path.basename(moduleDir);
+    const expectedPathFragment = `from "${publicBaseImportPath}/${moduleName}"`;
+
+    if (!rootIndexSource.includes(expectedPathFragment)) {
+      addIssue(
+        `src/index.ts should re-export public module "${moduleName}" from ${publicBaseImportPath}/${moduleName}.`,
+      );
+    }
   }
 }
 
@@ -271,11 +341,66 @@ function validateDevEntry() {
   }
 }
 
+function validateServiceOrUtilityDirectory(moduleDir, moduleKind) {
+  const moduleName = path.basename(moduleDir);
+  const expectedIndexFile = path.join(moduleDir, "index.ts");
+  const expectedTypesFile = path.join(moduleDir, "types.ts");
+  const implementationCandidates = readdirSync(moduleDir).filter(
+    fileName =>
+      [".ts", ".js", ".vue"].includes(path.extname(fileName)) &&
+      ![
+        "index.ts",
+        "types.ts",
+        "configs.ts",
+        "constants.ts",
+        `${moduleName}.stories.ts`,
+        `${moduleName}.stories.scss`,
+      ].includes(fileName),
+  );
+
+  if (!existsSync(expectedIndexFile)) {
+    addIssue(`${moduleKind} "${moduleName}" is missing index.ts.`);
+  }
+
+  if (!existsSync(expectedTypesFile)) {
+    addIssue(`${moduleKind} "${moduleName}" is missing types.ts.`);
+  }
+
+  if (implementationCandidates.length === 0) {
+    addIssue(
+      `${moduleKind} "${moduleName}" should contain a public implementation file in addition to index.ts and types.ts.`,
+    );
+  }
+
+  if (existsSync(expectedTypesFile)) {
+    validateTypesFile(moduleName, expectedTypesFile, { enforcePrefix: false });
+  }
+
+  if (existsSync(expectedIndexFile)) {
+    const primaryImplementationImport = implementationCandidates[0]
+      ? `./${path.basename(implementationCandidates[0], path.extname(implementationCandidates[0]))}`
+      : null;
+
+    validateModuleIndexFile(moduleName, expectedIndexFile, primaryImplementationImport);
+  }
+}
+
 for (const componentDir of getComponentDirectories()) {
   validateComponentDirectory(componentDir);
 }
 
+for (const serviceDir of getModuleDirectories(servicesDir)) {
+  validateServiceOrUtilityDirectory(serviceDir, "Service");
+}
+
+for (const utilityDir of getModuleDirectories(utilsDir)) {
+  validateServiceOrUtilityDirectory(utilityDir, "Utility");
+}
+
 validateRepositorySupportFileNames();
+validateNoExportedTypesOutsideTypesFile(componentsDir);
+validateNoExportedTypesOutsideTypesFile(servicesDir);
+validateNoExportedTypesOutsideTypesFile(utilsDir);
 validateRootExports();
 validatePackageJson();
 validateStyleEntry();

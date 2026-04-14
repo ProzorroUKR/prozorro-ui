@@ -1,0 +1,128 @@
+.pz-text-clamp-story {
+  display: grid;
+  gap: 24px;
+}
+
+.pz-text-clamp-story-hero,
+.pz-text-clamp-story-card {
+  border: 1px solid color-mix(in srgb, var(--pz-color-grey-40) 58%, transparent);
+  border-radius: 28px;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--pz-color-white) 98%, transparent),
+      color-mix(in srgb, var(--pz-color-grey-40) 10%, var(--pz-color-white))
+    ),
+    linear-gradient(135deg, color-mix(in srgb, var(--pz-color-blue-50) 4%, transparent), transparent 42%);
+  box-shadow:
+    0 18px 60px color-mix(in srgb, var(--pz-color-black-90) 8%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--pz-color-white) 96%, transparent);
+}
+
+.pz-text-clamp-story-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
+  gap: 20px;
+  padding: clamp(22px, 2vw, 30px);
+}
+
+.pz-text-clamp-story-copy,
+.pz-text-clamp-story-preview,
+.pz-text-clamp-story-card {
+  display: grid;
+  gap: 16px;
+}
+
+.pz-text-clamp-story-preview,
+.pz-text-clamp-story-card {
+  padding: clamp(20px, 2vw, 24px);
+}
+
+.pz-text-clamp-story-preview {
+  align-content: start;
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--pz-color-blue-50) 8%, transparent), transparent 30%),
+    var(--pz-color-white);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--pz-color-grey-40) 52%, transparent),
+    0 12px 32px color-mix(in srgb, var(--pz-color-black-90) 7%, transparent);
+}
+
+.pz-text-clamp-story-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.pz-text-clamp-story-card {
+  min-height: 220px;
+}
+
+.pz-text-clamp-story-card-header {
+  display: grid;
+  gap: 8px;
+}
+
+.pz-text-clamp-story-eyebrow,
+.pz-text-clamp-story-kicker,
+.pz-text-clamp-story-chip {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pz-text-clamp-story-eyebrow,
+.pz-text-clamp-story-kicker {
+  color: var(--pz-color-text-link-hover);
+}
+
+.pz-text-clamp-story-chip {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--pz-color-blue-50) 10%, transparent);
+  color: var(--pz-color-text-link-hover);
+}
+
+.pz-text-clamp-story-custom-toggle {
+  padding: 8px 12px;
+  border: 1px solid color-mix(in srgb, var(--pz-color-blue-50) 20%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--pz-color-blue-50) 8%, transparent);
+  color: var(--pz-color-text-link-hover);
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease;
+
+  @include typography-small-semibold;
+
+  &:hover,
+  &:focus-visible {
+    border-color: color-mix(in srgb, var(--pz-color-text-link-hover) 24%, transparent);
+    background: color-mix(in srgb, var(--pz-color-blue-50) 14%, transparent);
+    outline: none;
+  }
+}
+
+@media (width <= 1024px) {
+  .pz-text-clamp-story-hero,
+  .pz-text-clamp-story-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (width <= 640px) {
+  .pz-text-clamp-story-hero,
+  .pz-text-clamp-story-preview,
+  .pz-text-clamp-story-card {
+    padding: 20px;
+    border-radius: 22px;
+  }
+}
